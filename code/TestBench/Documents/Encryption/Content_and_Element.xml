@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<catalog>
+	<book id="bk101">
+		<author>
+			<EncryptedData xmlns="http://www.w3.org/2001/04/xmlenc#" Type="http://www.w3.org/2001/04/xmlenc#Content">
+				<EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc"/>
+				<CipherData>
+					<CipherValue>AAAAAAAAAAAAAAAAAAAAAFVdMKDksupkh6XRh+WYqsNX2gpsWaFcbYCvoQLpsiAx</CipherValue>
+				</CipherData>
+			</EncryptedData>
+		</author>
+		<title>XML Developer's Guide</title>
+		<genre>Computer</genre>
+		<price>44.95</price>
+		<publish_date>2000-10-01</publish_date>
+		<description>An in-depth look at creating applications  with XML.</description>
+	</book>
+	<EncryptedData xmlns="http://www.w3.org/2001/04/xmlenc#" Type="http://www.w3.org/2001/04/xmlenc#Element">
+		<EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc"/>
+		<CipherData>
+			<CipherValue>AAAAAAAAAAAAAAAAAAAAAPv8yHjTcTzZ1glKNa+MzxRi9Gl9PGnNYmNtLT6v1Vc48JUGlVt0xnA0QxDBkrM53QfIBH5LNpx1eMza4hoiSu8yZkfAJlC3E8UfKctqRITShCD4BG0mC8ijw2mjzlHbRE7xGgM1Eivv0Q0wipTW0n4DM2epM2W0P3Ew6/awZcTZEhDpqKfUK29gDXWW+bVvilD714wV0LSwS+95rS6Mejfh99PYkclH1eQhWxrA5Csj1iCL0tmtzHrp95x33HlXBSXaOfUhZ3WegHyCa+bwmXzxZpQz37cjYrW0kfKDtI3fmwWO7RBYGcoqqOKoZcGXYGlnasM55+jmlLNlQ1vUOq4O/bNChg+V+aDylAkq6M493xtOcvk1CRFuq+yRBJ9N0ZYb2h8SblFwR2LnmAFvrUgy//yKiIsMdYLQl9R967kL</CipherValue>
+		</CipherData>
+	</EncryptedData>
+</catalog>

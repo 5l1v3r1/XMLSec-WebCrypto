@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html><head>
+    <script src="../js/libs/jquery-1.9.0/jquery.min.js"></script>
+	<!--<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>-->
+    <script src="../js/ElementBuilder.js"></script>
+    <script src="../js/libs/Helper/ArrayBuffer2Base64.js"></script>
+    <script src="../js/libs/Canonicalisation/Exclusive/Canonicalisation_Comp.js"></script>
+    <script src="../js/helper.js"></script>
+    <script src="../js/libs/helper/asn1.js"></script>
+    <script src="../js/libs/helper/Hex2Base64.js"></script>
+    <script src="../js/libs/Canonicalisation/Inclusive/InclusiveCanonicalisation.js"></script>
+    <script src="../js/libs/helper/ArrayBuffer2Base64.js"></script>
+    <script src="../js/SignatureValidationResults.js"></script>
+    <script src="../js/EncryptionParams.js"></script>
+    <script src="../js/SignatureParams.js"></script>
+    <script src="../js/CanonicalXML.js"></script>
+    <script src="../js/XMLSecEnum.js"></script>
+    <script src="../js/Algorithms.js"></script>
+    <script src="../js/Reference.js"></script>
+    <script src="../js/libs/helper/xpath.js"></script>
+    <script src="../js/libs/helper/utils.js"></script>
+    <script src="../js/libs/helper/Base64Binary.js"></script>
+    <script src="../js/CryptoWrapper.js"></script>
+    <script src="../js/SignedXML.js"></script>
+    <script src="../js/EncryptedXML.js"></script>
+    <!--<script src="../js/SignatureVerifier.js"></script>-->
+    <script src="js/testbench.js"></script>
+
+  <meta content="text/html; charset=utf-8" http-equiv="content-type">
+  <title>WebCryptoAPI Prototype TestBench</title>
+  <style TYPE="text/css">
+    .Tests{
+      border-style:solid;
+      border-width: 0.5px;
+      background-color: gold;
+      width: 300px;
+      font-size:16px
+    }
+    .legend{
+      border-style:solid;
+      border-width: 0.5px;
+      width: 300px;
+      font-size:16px
+    }
+    form{
+      width: 300px;
+      font-size:18px
+    }
+  </style>
+</head><body>
+    Test Bench
+    <form>
+      <fieldset>
+        <legend>Legende</legend>
+          <div class="legend" style="background-color:gold"> Not runned</div>
+          <div class="legend" style="background-color:lime"> OK</div>
+          <div class="legend" style="background-color:red"> Failed</div>
+      </fieldset>
+    </form>
+
+        <input id="RunTest" type="button" value="Run"/> <input id="selectAll" type="button" value="Select all" /><input id="deselectAll" type="button" value="Deselect all" />
+    		<input id="exportKey" type="button" value="Export Key"/>
+    <form>
+      <fieldset>
+        <legend>Encryption</legend>
+          <!--<div class="Tests" id="div_E1" ><input class="CBTestsE" id="CheckboxE1" type="checkbox" /> Encryption: Roundtrip</div>-->
+          <div class="Tests" id="div_E2" ><input class="CBTestsE" id="CheckboxE2" type="checkbox" /> Encryption: Complete Document</div>
+          <div class="Tests" id="div_E3" ><input class="CBTestsE" id="CheckboxE3" type="checkbox" /> Encryption: One Element by Id</div>
+          <div class="Tests" id="div_E4" ><input class="CBTestsE" id="CheckboxE4" type="checkbox" /> Encryption: Two Elements by Id</div>
+          <div class="Tests" id="div_E5" ><input class="CBTestsE" id="CheckboxE5" type="checkbox" /> Encryption: All 'Book' Elements</div>
+          <div class="Tests" id="div_E6" ><input class="CBTestsE" id="CheckboxE6" type="checkbox" /> Encryption: One Child Element</div>
+          <div class="Tests" id="div_E7" ><input class="CBTestsE" id="CheckboxE7" type="checkbox" /> Encryption: Content</div>
+          <div class="Tests" id="div_E8" ><input class="CBTestsE" id="CheckboxE8" type="checkbox" /> Encryption: Content and Element</div>
+      </fieldset>
+    </form>
+    <form>
+      <fieldset>
+        <legend>Decryption PKCS#7 Padding</legend>
+          <div class="Tests" id="div_D1"><input class="CBTestsD" id="CheckboxD1" type="checkbox" /> Decryption: Complete Document</div>
+          <div class="Tests" id="div_D2"><input class="CBTestsD" id="CheckboxD2" type="checkbox" /> Decryption: One Element by Id</div>
+          <div class="Tests" id="div_D3"><input class="CBTestsD" id="CheckboxD3" type="checkbox" /> Decryption: All 'Book' Elements</div>
+          <div class="Tests" id="div_D4"><input class="CBTestsD" id="CheckboxD4" type="checkbox" /> Decryption: One Child Element</div>
+          <div class="Tests" id="div_D5"><input class="CBTestsD" id="CheckboxD5" type="checkbox" /> Decryption: Content</div>
+          <div class="Tests" id="div_D6"><input class="CBTestsD" id="CheckboxD6" type="checkbox" /> Decryption: Content and Element</div>
+        </fieldset>
+      </form>
+      <form>
+        <fieldset>
+          <legend>Decryption ISO Padding</legend>
+            <div class="Tests" id="div_DI1"><input class="CBTestsDI" id="CheckboxDI1" type="checkbox" /> Decryption: Complete Document</div>
+            <div class="Tests" id="div_DI2"><input class="CBTestsDI" id="CheckboxDI2" type="checkbox" /> Decryption: One Element by Id</div>
+            <div class="Tests" id="div_DI3"><input class="CBTestsDI" id="CheckboxDI3" type="checkbox" /> Decryption: All 'Book' Elements</div>
+            <div class="Tests" id="div_DI4"><input class="CBTestsDI" id="CheckboxDI4" type="checkbox" /> Decryption: One Child Element</div>
+            <div class="Tests" id="div_DI5"><input class="CBTestsDI" id="CheckboxDI5" type="checkbox" /> Decryption: Content</div>
+            <div class="Tests" id="div_DI6"><input class="CBTestsDI" id="CheckboxDI6" type="checkbox" /> Decryption: Content and Element</div>
+          </fieldset>
+        </form>
+      <form>
+        <fieldset>
+          <legend>Enveloped Signiture</legend>
+          <div class="Tests" id="div_S1" ><input class="CBTestsS" id="CheckboxS1" type="checkbox"  /> Signature: Complete Document</div>
+          <div class="Tests" id="div_S2" ><input class="CBTestsS" id="CheckboxS2" type="checkbox"  /> Signature: One Element by Id</div>
+          <div class="Tests" id="div_S3" ><input class="CBTestsS" id="CheckboxS3" type="checkbox"  /> Signature: Two Elements by Id</div>
+          <div class="Tests" id="div_S4" ><input class="CBTestsS" id="CheckboxS4" type="checkbox"  /> Signature: One Child Elements</div>
+          <div class="Tests" id="div_S5" ><input class="CBTestsS" id="CheckboxS5" type="checkbox"  /> Signature: All Book Elements</div>
+      </fieldset>
+    </form>
+    <form>
+      <fieldset>
+        <legend>Detached Signiture</legend>
+        <div class="Tests" id="div_SD1" ><input class="CBTestsSD" id="CheckboxSD1" type="checkbox"  /> Signature: Complete Document</div>
+        <div class="Tests" id="div_SD2" ><input class="CBTestsSD" id="CheckboxSD2" type="checkbox"  /> Signature: One Element by Id</div>
+        <div class="Tests" id="div_SD3" ><input class="CBTestsSD" id="CheckboxSD3" type="checkbox"  /> Signature: Two Elements by Id</div>
+        <div class="Tests" id="div_SD4" ><input class="CBTestsSD" id="CheckboxSD4" type="checkbox"  /> Signature: One Child Elements</div>
+        <div class="Tests" id="div_SD5" ><input class="CBTestsSD" id="CheckboxSD5" type="checkbox"  /> Signature: All Book Elements</div>
+    </fieldset>
+  </form>
+    <form>
+      <fieldset>
+        <legend>Verification (Enveloped)</legend>
+          <div class="Tests" id="div_V1" ><input class="CBTestsV" id="CheckboxV1" type="checkbox"  /> Verification: Complete Document</div>
+          <div class="Tests" id="div_V2" ><input class="CBTestsV" id="CheckboxV2" type="checkbox"  /> Verification: One Element by Id</div>
+          <div class="Tests" id="div_V3" ><input class="CBTestsV" id="CheckboxV3" type="checkbox"  /> Verification: Two Elements by Id</div>
+          <div class="Tests" id="div_V4" ><input class="CBTestsV" id="CheckboxV4" type="checkbox"  /> Verification: One Child Elements</div>
+          <div class="Tests" id="div_V5" ><input class="CBTestsV" id="CheckboxV5" type="checkbox"  /> Verification: All Book Elements</div>
+      </fieldset>
+    </form>
+    <form>
+      <fieldset>
+        <legend>Verification (Deteached)</legend>
+          <div class="Tests" id="div_VD1" ><input class="CBTestsVD" id="CheckboxVD1" type="checkbox"  /> Verification: Complete Document</div>
+          <div class="Tests" id="div_VD2" ><input class="CBTestsVD" id="CheckboxVD2" type="checkbox"  /> Verification: One Element by Id</div>
+          <div class="Tests" id="div_VD3" ><input class="CBTestsVD" id="CheckboxVD3" type="checkbox"  /> Verification: Two Elements by Id</div>
+          <div class="Tests" id="div_VD4" ><input class="CBTestsVD" id="CheckboxVD4" type="checkbox"  /> Verification: One Child Elements</div>
+          <div class="Tests" id="div_VD5" ><input class="CBTestsVD" id="CheckboxVD5" type="checkbox"  /> Verification: All Book Elements</div>
+      </fieldset>
+    </form>
+    <form>
+      <fieldset>
+        <legend>Verification negative</legend>
+          <div class="Tests" id="div_VN1"><input class="CBTestsVN" id="CheckboxVN1" type="checkbox"  /> Verifikation: Reference wrong Digest</div>
+          <div class="Tests" id="div_VN2"><input class="CBTestsVN" id="CheckboxVN2" type="checkbox"  /> Verifikation: Wrong Signiturevalue</div>
+          <div class="Tests" id="div_VN3"><input class="CBTestsVN" id="CheckboxVN3" type="checkbox"  /> Verifikation: Wrong Key</div>
+      </fieldset>
+    </form>
+
+		<form>
+      <fieldset>
+        <legend>Encryption/Decryption with KeyInfo</legend>
+          <div class="Tests" id="div_ED1"><input class="CBTestsVN" id="CheckboxED1" type="checkbox"  /> Roundtrip: One Element Dec->Enc->Dec</div>
+					<div class="Tests" id="div_ED2"><input class="CBTestsVN" id="CheckboxED2" type="checkbox"  /> Roundtrip: Two Elements Dec->Enc->Dec</div>
+      </fieldset>
+    </form>
+</body>
+
+</html>

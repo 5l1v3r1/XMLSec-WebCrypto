@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE catalog[<!ELEMENT catalog (book) >
+<!ELEMENT book (author,title,genre,price,publish_date,description)>
+<!ELEMENT author ( #PCDATA ) >
+<!ELEMENT title ( #PCDATA ) >
+<!ELEMENT genre ( #PCDATA )>
+<!ELEMENT price ( #PCDATA )>
+<!ELEMENT publish_date ( #PCDATA ) >
+<!ELEMENT description ( #PCDATA )>
+<!ATTLIST book id ID #IMPLIED>
+<!ATTLIST catalog id ID #IMPLIED >]><catalog>
+	<EncryptedData Type="http://www.w3.org/2001/04/xmlenc#Element" xmlns="http://www.w3.org/2001/04/xmlenc#">
+		<EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" />
+		<CipherData>
+			<CipherValue>AAAAAAAAAAAAAAAAAAAAAA0oR2Ggq2jUyEPy0orADpZ+yjV/+CNsIEbfEbl1dWhPccFrGp2ufi1tjMsOt8VEc8voXWXMIRYm28T0X0DHXpgWpGZIn5Q+ms17sMTDy0I+nUddgeH8GsJZ7dXU9ChjcvmpnSvQgApxtuIp3vIepj5VESxr2ZL+kdcApTAU7yAQA4xvvpnEKFF3AjEaBvQ/zAtBLfjNYyXxcB4jR6Nugx02+okLCen4/f8jU/xHsD9U3SbFSCFr7/l4L8M7qLixvRFw933pVoGlWZ2fSM8rvCC93Wfsl6zf/Ds6GZhmldnZ8PMcBk6ACrBuJ5P0H+yFPv0CMc8JFwP0QNROympnR4PJ5xmpZk95YNl/2h0olzIW</CipherValue>
+		</CipherData>
+	</EncryptedData>
+	<book id="bk102">
+		<author>Ralls, Kim</author>
+		<title>Midnight Rain</title>
+		<genre>Fantasy</genre>
+		<price>5.95</price>
+		<publish_date>2000-12-16</publish_date>
+		<description>A former architect battles corporate zombies,  an evil sorceress, and her own childhood to become queen  of the world.</description>
+	</book>
+</catalog>
