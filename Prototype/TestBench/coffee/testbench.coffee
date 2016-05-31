@@ -321,7 +321,7 @@ resetResults = () ->
 test_KeyInfo_Roundtrip_oneElement = ()->
   $.get (documentRoot+"/Decryption/PKCS7_Padding/One_Element_with_KeyInfo.xml") ,( data ) ->
     chipher = data
-    referenceXML = documentRoot+"/Original_XML/Minimal_for_KeyInfo.xml"
+    referenceXML = documentRoot+"/Original_XML/Minimal_3.xml"
     actualDiv = "#div_ED1"
     decrypt(chipher,window.RSAOAEP_Dec,referenceXML)
     .then((documents)->

@@ -309,7 +309,7 @@
     return $.get(documentRoot + "/Decryption/PKCS7_Padding/One_Element_with_KeyInfo.xml", function(data) {
       var actualDiv, chipher, referenceXML;
       chipher = data;
-      referenceXML = documentRoot + "/Original_XML/Minimal_for_KeyInfo.xml";
+      referenceXML = documentRoot + "/Original_XML/Minimal_3.xml";
       actualDiv = "#div_ED1";
       return decrypt(chipher, window.RSAOAEP_Dec, referenceXML).then(function(documents) {
         var plainXML, xpath;
