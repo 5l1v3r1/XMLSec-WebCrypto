@@ -14,6 +14,14 @@ build = (dest, src, callback) ->
 
 task 'build', 'Build js/ from coffee/', ->
   build('Prototype/js', 'Prototype/coffee')
-  
+  invoke 'package'
+ 
 task 'buildTestBench', 'Build TestBench', ->
    build('Prototype/TestBench/js', 'Prototype/TestBench/coffee')
+   
+task 'package', 'Convert package.coffee to package.json', ->
+  coffee = spawn 'coffee', ['-c', 'package.coffee']
+  coffee.on 'exit', (code) ->
+    pkgInfo = require './package.js'
+    fs.writeFile "package.json", JSON.stringify(pkgInfo, null, 2)
+    spawn 'rm', ['package.js']
