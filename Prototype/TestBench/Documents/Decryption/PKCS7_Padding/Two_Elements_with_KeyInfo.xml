@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE catalog[<!ELEMENT catalog (book) ><!ELEMENT book (author,title,genre,price,publish_date,description)><!ELEMENT author ( #PCDATA ) ><!ELEMENT title ( #PCDATA ) ><!ELEMENT genre ( #PCDATA )><!ELEMENT price ( #PCDATA )><!ELEMENT publish_date ( #PCDATA ) ><!ELEMENT description ( #PCDATA )><!ATTLIST book id ID #IMPLIED> <!ATTLIST catalog id ID #IMPLIED >]>
+<catalog>
+  <EncryptedData Id="EncEle_bk101" Type="http://www.w3.org/2001/04/xmlenc#Element" xmlns="http://www.w3.org/2001/04/xmlenc#">
+    <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" />
+    <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+      <EncryptedKey xmlns="http://www.w3.org/2001/04/xmlenc#">
+        <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p" />
+        <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+          <KeyName>rsaKey</KeyName>
+        </KeyInfo>
+        <CipherData>
+          <CipherValue>AOia2G3eLsSP8LkmQGyr5zgOZObAY88aRBDzs2cuUaJXot43vk8fq9M0rZxpsJ4YTeRo69J60dfj6t4Gwh2sUqdtZzCx5oXUvckKcTUgpZ+uPwVw/5N+qEnVrHqJUXabwPXbrNj+++dWnzyhxtlEEKuYzpG0mQR5uCxXbQAf4IALnUKw2OTPVz8PgpRGyKaTJj/X3HI4qqqDeDIMkQBpQ1/w5OIPhSPm3a8+iI4I1Vr/YeGZYYY8CMEc2XkSKCFwZCBQU/AuNlu2kCV5S0U6VZAapjb20O6rnoFo/SB/jVXncafuIBfO154Z5L64L2A/yAgw4qo6i/w7qiWhmAyQVw==</CipherValue>
+        </CipherData>
+        <ReferenceList>
+          <DataReference URI="#EncEle_bk101" />
+        </ReferenceList>
+      </EncryptedKey>
+    </KeyInfo>
+    <CipherData>
+      <CipherValue>qANzZQapAPOUroPWWyXpxNGVGWGTpqzAlRd1i4XH/I7qc6t33anSE5p9yk9dOCEI6rMTwCVjKPZlQr2LhWQu9AmSXMSudtIsFwXH4Xxs8s06hoMuoV5ECAl7H4KbQACUA3yItC/3ufXr5VtJcEJSRrREfmYK6GbW2yTK2yhwJTW5qoA5wUu8SmVbRdq0hvplhAp6lVCCK4SSe7OrthzRsvAkjsbYQD1RAmpCfWmN2hWLK4foyHGg5PM+yeJsn1IvQ8GFKalqB15UOftzY7A8q5vtyqIuZHiJI2M/WnbXyjv2gKUCGvrvd/QpHHkz8vb7r0xS3tnRWnUb+Hr4aj9KcozXBGzjwRCtIRVGtXOe6elXI2lkvPG17vDUPgdv54B6</CipherValue>
+    </CipherData>
+  </EncryptedData>
+  <EncryptedData Id="EncEle_bk102" Type="http://www.w3.org/2001/04/xmlenc#Element" xmlns="http://www.w3.org/2001/04/xmlenc#">
+    <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" />
+    <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+      <EncryptedKey xmlns="http://www.w3.org/2001/04/xmlenc#">
+        <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p" />
+        <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+          <KeyName>rsaKey</KeyName>
+        </KeyInfo>
+        <CipherData>
+          <CipherValue>IbbAoCJFoN/LEvi88sDzEAFv+3jkf7csbNm2Llu8Rz3ww3AsTT+SxhS9sZZ4Egh5BBelxJS5pRxg374uJ/e/kYwdQFirw/7nMVSpRJYSbkeUr7/SuMA1q30IN4690x2PqWHjxxapzH4Oj1bdVJ62TX0VSHvzZGuH7L3ABSLY2hJalskC5iR46Y00QnLF3oNOV0ef4hF0UfS1W4ovSDAI0L+DGkUpSwicP8DvvbWDcF7z/IjNp1tg6XlcWS3bILpAEgKzwwv7EigDzOnfMUOOmkpkhp+M8Rnt46WcKyQ/uf+i0hkR23F8pFGSDKHsbrjHzKOMPqiQ293J/tkaO3ic4g==</CipherValue>
+        </CipherData>
+        <ReferenceList>
+          <DataReference URI="#EncEle_bk102" />
+        </ReferenceList>
+      </EncryptedKey>
+    </KeyInfo>
+    <CipherData>
+      <CipherValue>Pmr6Hgy2N/968d+dVVDjjOgwnLTQnezWVpU8If8ZvuHWCm4AsbS9OI7t2geUjeWjU4CQBwxD5QsHeX75xsvdpl1RKLcRj3dRTbTmBbC/NcVvCZGHnYAtj/SynRaG1LedjYH4EYCENgP2Gnd5lRkWsSRyH/gwCjk1g3+gsaEFvxLuExj7jaWpwjuEK7bzIu3cdLDgwnhs0C8o+xkONHLVZaY1yOOdITjMqDfhG8vIjcKnouUB2xAn7UNpaPsNY1WHdqQlABpAf8GsLOEHPYe2/JNOdN34m5lMEa2FTbmTW9/73+tkhpN8X+LM9ikBNSjTu2SzVorX5ua9GxfMvW877DirN4XZdGzr3fuTJPu86xs30ZwhW7rtnsPJV2ghPyk8hISldGHssx6xdbHsVkjhT+P2r291Yjiv1uSzFmPQPczecPLFZ9Xm3VNaNF197sIG</CipherValue>
+    </CipherData>
+  </EncryptedData>
+</catalog>

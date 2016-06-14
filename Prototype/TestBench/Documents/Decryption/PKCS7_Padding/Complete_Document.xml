@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE catalog[<!ELEMENT catalog (book) ><!ELEMENT book (author,title,genre,price,publish_date,description)><!ELEMENT author ( #PCDATA ) ><!ELEMENT title ( #PCDATA ) ><!ELEMENT genre ( #PCDATA )><!ELEMENT price ( #PCDATA )><!ELEMENT publish_date ( #PCDATA ) ><!ELEMENT description ( #PCDATA )><!ATTLIST book id ID #IMPLIED> <!ATTLIST catalog id ID #IMPLIED >]>
+<EncryptedData Type="http://www.w3.org/2001/04/xmlenc#Element" xmlns="http://www.w3.org/2001/04/xmlenc#">
+  <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" />
+  <CipherData>
+    <CipherValue>VbMJPf4+q56kcGaK9khW9epG0bkXpiJ5zWlWOuVhD7+E1kkXvkJkK9BTVFYFY11NkcHjk/aMZpIwsbAX/1pgm0lrZBEVsgSEZJOMmtjP2vJJFUgK3bg9iRYxpVVb1ayB77y2PUmlxtF9p/OItw1E/UKzu5zJUPEp3vKj2huWKJFjYbcEx2b/rYAiomd9i8//PjI/Xez4naBgtd+dvHkmmwoGyEhFNaK/obHYSKKvS/ONo+Ub8ILR7/MkK1feoihPFS6m2OvXmlfz9gmIp0y3qkwsdSXcwH9/gKWnC36OOnAVP5SWZjJYxFQVpy/irYg8juNVqyoVF3morY9Jh/7bN0v89tcypiTY9o985i1YfiUbg3g2mviCDUcWf7wLwZTiBQcLmclUGOiVxfzzO+WcCL0BerqaoN7q8WVyU+ZBSD+CQSYT6B21Yx3yk2YMxSOo+fYVMDfcT0ioz3HLbn1c2PWee66U6RDutxTwopqqgj6vk402xTtfrt3sRXTge8XKZgul7DEGIbzzybQlliE3K7OfYmnjcMgOnILcrhkl9pID1cH+LZ/3qYKOM2FkNkkfs0UA3+h1NJrnwHpril0HEZcR/tZkJnsk6WE15aPqGhPkQmtka0WnJBpRMPhDyiUelHkHkdFNtI/ZDzsEHI5B3rMy+ovpiZqR4BItgHvBNpU7B7kIUQDgSuVn0yis02UEs1mmd1EBzgB16yk/eGKe00UzWgfSXuGqe69NlZAYdl6gE7fcy9T9H/UR7RRLw9CERqNYrAvnPG2kQST1PiUp2vjnpE+zJ7MhcGVu3SxDzlc=</CipherValue>
+  </CipherData>
+</EncryptedData>

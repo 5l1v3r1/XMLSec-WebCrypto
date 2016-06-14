@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE catalog[<!ELEMENT catalog (book) ><!ELEMENT book (author,title,genre,price,publish_date,description)><!ELEMENT author ( #PCDATA ) ><!ELEMENT title ( #PCDATA ) ><!ELEMENT genre ( #PCDATA )><!ELEMENT price ( #PCDATA )><!ELEMENT publish_date ( #PCDATA ) ><!ELEMENT description ( #PCDATA )><!ATTLIST book id ID #IMPLIED> <!ATTLIST catalog id ID #IMPLIED >]>
+<catalog>
+  <EncryptedData Type="http://www.w3.org/2001/04/xmlenc#Element" xmlns="http://www.w3.org/2001/04/xmlenc#">
+    <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" />
+    <CipherData>
+      <CipherValue>Nvi2mAZGk8puHm0x/Mk4dXYMTfOi5mipNduZEYgUTgvY+mCK2pIoq7FY2vGRZfpxeNJ3qCEqHlU+196j6CxxwOFgUbKd77prgGzvKZh4Lic3MOsOG4ZeHZrn1UmJ4/j1/efarQL6l9T6GGzAuu2riKp6F1nX9JTXcgiL02gWq/yjwq6w+igjsj+whoxmcirizbcYQWvvqoaOY60FaX2v1BGkg5kHM/LRBCneYYXZ1ePqQ5lzkwP+AOK+QkCWM4eYcdmSkOXtv1X0+eV7ls9mPN/jC1Aa2UK03RjNRb+ALgQTCTJNGUUaj7WuUcmn5zI1JzBDpHw384ES2rItNkHLF9tW6qP7A5QbmVw0q+UAybRJRRHm9jY0AFbU7Kaxz3sx</CipherValue>
+    </CipherData>
+  </EncryptedData>
+  <EncryptedData Type="http://www.w3.org/2001/04/xmlenc#Element" xmlns="http://www.w3.org/2001/04/xmlenc#">
+    <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" />
+    <CipherData>
+      <CipherValue>Nvi2mAZGk8puHm0x/Mk4dbX1b2Ta45O5hAZcOfV57FylKSBezyRuOzdUgLWjLSiO/Xcp7DX/WVaIVqGkS/Ogl7xoG8N6Qw8fMe0EgQHz8GfD/tW9YogtYJfDbNbuTNlT/WoQ0EXro8/HX0mr0NcCPqqBkQ2LAwXS4zo4I7thYZJnBHNGnncAjTq9xXp3+1RjRUzb5Jd41hpE0JyDVurnoyydUNnEACTKSiMPG9nZwn66jlSQenP+ewOeW2h0JZfsNDlX9Jm09zJjtn1kXC5CBZS98sXYMnb2Gt4FmcahPgL8DuvRj0jzwW4T2Ssnud6F9LlbX4AOaCPjdTLvgkU2wrKWEDys8GwFpyxYUixGNNilRDH4Cdn2NPfiOimbuFrd5gAn2/XF6diTsWIuLRi89LWRsNSNcRoIFYlx8sO3/ZjQHxaaouP7nZRcK0TGiyMx</CipherValue>
+    </CipherData>
+  </EncryptedData>
+</catalog>

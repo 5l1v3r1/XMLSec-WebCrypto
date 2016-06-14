@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="catalog">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="unbounded" name="book">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="author">
+                <xsd:complexType>
+                  <xsd:attribute name="id" type="xsd:ID" />
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="title">
+                <xsd:complexType>
+                  <xsd:attribute name="id" type="xsd:ID" />
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="genre">
+                <xsd:complexType>
+                  <xsd:attribute name="id" type="xsd:ID" />
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="price">
+                <xsd:complexType>
+                  <xsd:attribute name="id" type="xsd:ID" />
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="publish_date">
+                <xsd:complexType>
+                  <xsd:attribute name="id" type="xsd:ID" />
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="description">
+                <xsd:complexType>
+                  <xsd:attribute name="id" type="xsd:ID" />
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:ID" />
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="id" type="xsd:ID" />
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

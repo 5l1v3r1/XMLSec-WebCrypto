@@ -1,0 +1,1 @@
+%~dp0\nodejs\coffee.cmd -o ..\Prototype\TestBench\js\  -cw ..\Prototype\TestBench\coffee\ ..\Prototype\js\
