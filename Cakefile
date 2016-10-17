@@ -12,12 +12,16 @@ build = (dest, src, callback) ->
   coffee.on 'exit', (code) ->
     callback?() if code is 0
 
-task 'build', 'Build js/ from coffee/', ->
-  build('Prototype/js', 'Prototype/coffee')
+task 'build', 'Build project', ->
   invoke 'package'
+  invoke 'buildJS'
+  invoke 'buildTests'
+
+task 'buildJS', 'Build js from coffee', ->
+  build('js', 'src')
  
-task 'buildTestBench', 'Build TestBench', ->
-   build('Prototype/TestBench/js', 'Prototype/TestBench/coffee')
+task 'buildTests', 'Build Tests', ->
+   build('test/js', 'test/src')
    
 task 'package', 'Convert package.coffee to package.json', ->
   coffee = spawn 'coffee', ['-c', 'package.coffee']

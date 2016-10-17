@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html><head>
-    <script src="../js/libs/jquery-1.9.0/jquery.min.js"></script>
-    <script src="../js/ElementBuilder.js"></script>
-    <script src="../js/libs/helper/ArrayBuffer2Base64.js"></script>
-    <script src="../js/libs/Canonicalisation/Exclusive/Canonicalisation_Comp.js"></script>
+    <!-- testing dependencies -->
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="js/testbench.js"></script>
+    
+    <!-- dependencies -->
+    <script src="libs/helper/ArrayBuffer2Base64.js"></script>
+    <script src="libs/helper/utils.js"></script>
+    <script src="../node_modules/xpath/xpath.js"></script>
+    <script src="../node_modules/xml-c14n/lib/escape.js"></script>
+    <script src="../node_modules/xml-c14n/lib/algorithm.js"></script>
+    <script src="../node_modules/xml-c14n/lib/algorithm/exclusive-canonicalisation.js"></script>
+    <!-- <script src="libs/Canonicalisation/Exclusive/Canonicalisation_Comp.js"></script>-->
     <script src="../js/helper.js"></script>
-    <script src="../js/libs/Canonicalisation/Inclusive/InclusiveCanonicalisation.js"></script>
-    <script src="../js/libs/helper/ArrayBuffer2Base64.js"></script>
+    <script src="../js/ElementBuilder.js"></script>
     <script src="../js/SignatureValidationResults.js"></script>
     <script src="../js/EncryptionParams.js"></script>
     <script src="../js/SignatureParams.js"></script>
@@ -14,13 +21,9 @@
     <script src="../js/XMLSecEnum.js"></script>
     <script src="../js/Algorithms.js"></script>
     <script src="../js/Reference.js"></script>
-    <script src="../js/libs/helper/xpath.js"></script>
-    <script src="../js/libs/helper/utils.js"></script>
     <script src="../js/CryptoWrapper.js"></script>
     <script src="../js/SignedXML.js"></script>
     <script src="../js/EncryptedXML.js"></script>
-    <!--<script src="../js/SignatureVerifier.js"></script>-->
-    <script src="js/testbench.js"></script>
 
   <meta content="text/html; charset=utf-8" http-equiv="content-type">
   <title>WebCryptoAPI Prototype TestBench</title>
@@ -93,7 +96,7 @@
         </form>
       <form>
         <fieldset>
-          <legend>Enveloped Signiture</legend>
+          <legend>Enveloped Signature</legend>
           <div class="Tests" id="div_S1" ><input class="CBTestsS" id="CheckboxS1" type="checkbox"  /> Signature: Complete Document</div>
           <div class="Tests" id="div_S2" ><input class="CBTestsS" id="CheckboxS2" type="checkbox"  /> Signature: One Element by Id</div>
           <div class="Tests" id="div_S3" ><input class="CBTestsS" id="CheckboxS3" type="checkbox"  /> Signature: Two Elements by Id</div>
@@ -105,7 +108,7 @@
     </form>
     <form>
       <fieldset>
-        <legend>Detached Signiture</legend>
+        <legend>Detached Signature</legend>
         <div class="Tests" id="div_SD1" ><input class="CBTestsSD" id="CheckboxSD1" type="checkbox"  /> Signature: Complete Document</div>
         <div class="Tests" id="div_SD2" ><input class="CBTestsSD" id="CheckboxSD2" type="checkbox"  /> Signature: One Element by Id</div>
         <div class="Tests" id="div_SD3" ><input class="CBTestsSD" id="CheckboxSD3" type="checkbox"  /> Signature: Two Elements by Id</div>
@@ -138,7 +141,7 @@
       <fieldset>
         <legend>Verification negative</legend>
           <div class="Tests" id="div_VN1"><input class="CBTestsVN" id="CheckboxVN1" type="checkbox"  /> Verifikation: Reference wrong Digest</div>
-          <div class="Tests" id="div_VN2"><input class="CBTestsVN" id="CheckboxVN2" type="checkbox"  /> Verifikation: Wrong Signiturevalue</div>
+          <div class="Tests" id="div_VN2"><input class="CBTestsVN" id="CheckboxVN2" type="checkbox"  /> Verifikation: Wrong Signaturevalue</div>
           <div class="Tests" id="div_VN3"><input class="CBTestsVN" id="CheckboxVN3" type="checkbox"  /> Verifikation: Wrong Key</div>
       </fieldset>
     </form>

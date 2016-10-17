@@ -1,1 +1,0 @@
-%~dp0\nodejs\http-server.cmd "%~dp0\..\Prototype"

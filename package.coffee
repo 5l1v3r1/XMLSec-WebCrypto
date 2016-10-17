@@ -8,17 +8,21 @@ module.exports =
 
   author: "Martin Becker"
 
-  #dependencies: 
+  #dependencies:
   
   devDependencies:
-    "coffee-script": ">=1.10.0"
     "http-server": ">= 0.8.5"
+    jquery: ">=1.9.0"
+    "coffee-script": ">=1.10.0"
+    "xml-c14n": ">=0.0.6"
+    xpath: ">=0.0.23"
+    browserify: "~13"
     
   engine: "node >= 0.6"
 
   scripts:
     build: "cake build"
-    start: "node ./node_modules/http-server/bin/http-server ./Prototype/"
+    start: "node ./node_modules/http-server/bin/http-server ./"
 
   licenses: [
     type: "MIT"
