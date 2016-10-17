@@ -588,7 +588,7 @@
       var actualDiv, plainXML, referenceXML, xpath;
       plainXML = data;
       xpath = [];
-      referenceXML = documentRoot + "/Encryption/content.xml";
+      referenceXML = documentRoot + "/Encryption/Content.xml";
       xpath.push("/catalog/book[1]/author/text()");
       actualDiv = "#div_E7";
       return encrypt(plainXML, xpath, window.AES256Key, referenceXML).then(function(documents) {

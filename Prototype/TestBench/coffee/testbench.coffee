@@ -569,7 +569,7 @@ test_Encryption_Content = () ->
   $.get documentRoot+refenceDocument ,( data ) ->
     plainXML = data
     xpath = []
-    referenceXML = documentRoot+"/Encryption/content.xml"
+    referenceXML = documentRoot+"/Encryption/Content.xml"
     xpath.push("/catalog/book[1]/author/text()")
     actualDiv = "#div_E7"
     encrypt(plainXML,xpath,window.AES256Key,referenceXML)
