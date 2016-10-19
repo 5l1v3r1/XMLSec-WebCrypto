@@ -12,13 +12,12 @@ class window.SignedXML
   ###
   computeSignature = (signedInfo,signatureParams)->
     #canonicalise the signedInfo
-    cryptoInput = new CanonicalXML(signedInfo).CanonXML
-    #Sign
-    CryptoWrapper.Sign(cryptoInput,signatureParams)
-    .then((signatureValue) ->
-      #build the signature element with the computed signature Value
-      ElementBuilder.buildSignatureElement(signatureParams.prefix,signedInfo,signatureValue)
-    )
+    new CanonicalXML().canonicalise(signedInfo)
+    .then (cryptoInput) ->
+      CryptoWrapper.Sign(cryptoInput,signatureParams)
+      .then (signatureValue) ->
+        #build the signature element with the computed signature Value
+        ElementBuilder.buildSignatureElement(signatureParams.prefix,signedInfo,signatureValue)
 
   ###
   signes the document.
@@ -179,20 +178,20 @@ class window.SignedXML
     for i in [0..ref.transforms.length-1]
       if Helper.mapFromURI(ref.transforms[i]) == XMLSecEnum.WebCryptoAlgMapper.envelopedSignature
         #Do Nothing, just for Errorhandling
-      #Has to be the last transformation since the CanonicalXML is serilized. Parsing removes Cononicalisation!!!
+      #Has to be the last transformation since the CanonicalXML is serilized. Parsing removes Canonicalisation!!!
       else if Helper.mapFromURI(ref.transforms[i]) == XMLSecEnum.WebCryptoAlgMapper.c14n
-        transformed = new CanonicalXML(transformed).CanonXML
-
+        return new CanonicalXML().canonicalise(transformed)
+        .then (transformed) ->
+          #calculate the digest Value
+          digestValue = CryptoWrapper.hash(transformed,ref.digestAlg)
+          .then (result) ->
+            # and create the Reference element
+            ElementBuilder.buildReferenceElement(id,signatureParams.prefix,ref.transforms,ref.digestAlgURI,result)
+          .then null, (err) ->
+            console.log err
       else throw new Error "Algorithm not supported"
 
-    #calculate the digest Value
-    digestValue = CryptoWrapper.hash(transformed,ref.digestAlg)
-    .then((result)->
-        #and create the Reference element
-        ElementBuilder.buildReferenceElement(id,signatureParams.prefix,ref.transforms,ref.digestAlgURI,result)
-      )
-    .then( null, (err) ->
-      console.log err)
+    
 
   ###
   Creates the SignedInfo element
@@ -380,15 +379,15 @@ class window.SignedXML
   ###
   validateSignatureValue= (signedInfo,publicKey,signature) ->
     #Canonicalise the signedInfo Element
-    canonXML = new CanonicalXML(signedInfo).CanonXML
-    #call the Verify method
-    CryptoWrapper.Verify(canonXML,publicKey,signature)
-    .then((result) ->
-      error = ""
-      if !result
-        error = "Signature Value is invalid"
-      return [result,error]
-      )
+    new CanonicalXML().canonicalise(signedInfo)
+    .then (canonXML) ->
+      #call the Verify method
+      CryptoWrapper.Verify(canonXML,publicKey,signature)
+      .then (result) ->
+        error = ""
+        if !result
+          error = "Signature Value is invalid"
+        return [result,error]
 
   ###
   Validates the references reqursive
@@ -408,26 +407,32 @@ class window.SignedXML
       if nodes.length > 1
         throw new error "Id is not unique"
       node = nodes[0]
-    #Apply Transforms at this point only c14n is supported. envelopedSignature transformation is perforemed on another place.
+    #Apply Transforms at this point only c14n is supported. envelopedSignature transformation is performed on another place.
     transformed = node
-    for t in [0..references[i].transforms.length-1]
-      if Helper.mapFromURI(references[i].transforms[t]) == XMLSecEnum.WebCryptoAlgMapper.c14n
-        transformed = new CanonicalXML(transformed).CanonXML
-    #Calculate the digestValue
-    digestValue = CryptoWrapper.hash(transformed,references[i].digestAlg)
-    .then((result)->
-      #If the calculated digestValue is not the same as the passed
-      error = ""
-      if (result!=references[i].digestValue)
-        #Add the Error to the SVR
-        error = "Reference Validation Error of " + references[i].uri
-      refValRes.push([references[i],transformed,error])
-      if i < references.length-1
-        validateReferences(doc,references,i+1,res)
-      else
-        return refValRes
-    )
-
+    p = new Promise (resolve, reject) ->
+      needWait = false
+      for t in [0..references[i].transforms.length-1]
+        if Helper.mapFromURI(references[i].transforms[t]) == XMLSecEnum.WebCryptoAlgMapper.c14n
+          needWait = true
+          new CanonicalXML().canonicalise(transformed)
+          .then (transformed) ->
+            resolve(transformed)
+      if not needWait
+        resolve(transformed)
+    p.then (transformed) ->
+      #Calculate the digestValue
+      digestValue = CryptoWrapper.hash(transformed,references[i].digestAlg)
+      .then (result) ->
+        #If the calculated digestValue is not the same as the passed
+        error = ""
+        if (result!=references[i].digestValue)
+          #Add the Error to the SVR
+          error = "Reference Validation Error of " + references[i].uri
+        refValRes.push([references[i],transformed,error])
+        if i < references.length-1
+          validateReferences(doc,references,i+1,res)
+        else
+          return refValRes
 
   ###
   loads the key from the keyInfo element of the signed XML document

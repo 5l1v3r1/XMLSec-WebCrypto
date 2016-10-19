@@ -16,10 +16,10 @@
      */
 
     computeSignature = function(signedInfo, signatureParams) {
-      var cryptoInput;
-      cryptoInput = new CanonicalXML(signedInfo).CanonXML;
-      return CryptoWrapper.Sign(cryptoInput, signatureParams).then(function(signatureValue) {
-        return ElementBuilder.buildSignatureElement(signatureParams.prefix, signedInfo, signatureValue);
+      return new CanonicalXML().canonicalise(signedInfo).then(function(cryptoInput) {
+        return CryptoWrapper.Sign(cryptoInput, signatureParams).then(function(signatureValue) {
+          return ElementBuilder.buildSignatureElement(signatureParams.prefix, signedInfo, signatureValue);
+        });
       });
     };
 
@@ -159,7 +159,7 @@
      */
 
     createReference = function(doc, signatureParams, ref) {
-      var currentPrefix, digestValue, i, id, k, nodes, prefix, ref1, transformed;
+      var currentPrefix, i, id, k, nodes, prefix, ref1, transformed;
       prefix = signatureParams.prefix;
       if (prefix) {
         currentPrefix = prefix;
@@ -173,16 +173,18 @@
         if (Helper.mapFromURI(ref.transforms[i]) === XMLSecEnum.WebCryptoAlgMapper.envelopedSignature) {
 
         } else if (Helper.mapFromURI(ref.transforms[i]) === XMLSecEnum.WebCryptoAlgMapper.c14n) {
-          transformed = new CanonicalXML(transformed).CanonXML;
+          return new CanonicalXML().canonicalise(transformed).then(function(transformed) {
+            var digestValue;
+            return digestValue = CryptoWrapper.hash(transformed, ref.digestAlg).then(function(result) {
+              return ElementBuilder.buildReferenceElement(id, signatureParams.prefix, ref.transforms, ref.digestAlgURI, result);
+            }).then(null, function(err) {
+              return console.log(err);
+            });
+          });
         } else {
           throw new Error("Algorithm not supported");
         }
       }
-      return digestValue = CryptoWrapper.hash(transformed, ref.digestAlg).then(function(result) {
-        return ElementBuilder.buildReferenceElement(id, signatureParams.prefix, ref.transforms, ref.digestAlgURI, result);
-      }).then(null, function(err) {
-        return console.log(err);
-      });
     };
 
 
@@ -363,15 +365,15 @@
      */
 
     validateSignatureValue = function(signedInfo, publicKey, signature) {
-      var canonXML;
-      canonXML = new CanonicalXML(signedInfo).CanonXML;
-      return CryptoWrapper.Verify(canonXML, publicKey, signature).then(function(result) {
-        var error;
-        error = "";
-        if (!result) {
-          error = "Signature Value is invalid";
-        }
-        return [result, error];
+      return new CanonicalXML().canonicalise(signedInfo).then(function(canonXML) {
+        return CryptoWrapper.Verify(canonXML, publicKey, signature).then(function(result) {
+          var error;
+          error = "";
+          if (!result) {
+            error = "Signature Value is invalid";
+          }
+          return [result, error];
+        });
       });
     };
 
@@ -383,7 +385,7 @@
      */
 
     validateReferences = function(doc, references, i, res) {
-      var digestValue, k, node, nodes, ref1, refValRes, t, transformed, xmlDoc;
+      var node, nodes, p, refValRes, transformed, xmlDoc;
       xmlDoc = $(doc);
       refValRes = res;
       if (!references[i].uri || references[i].uri === "/*") {
@@ -396,23 +398,36 @@
         node = nodes[0];
       }
       transformed = node;
-      for (t = k = 0, ref1 = references[i].transforms.length - 1; 0 <= ref1 ? k <= ref1 : k >= ref1; t = 0 <= ref1 ? ++k : --k) {
-        if (Helper.mapFromURI(references[i].transforms[t]) === XMLSecEnum.WebCryptoAlgMapper.c14n) {
-          transformed = new CanonicalXML(transformed).CanonXML;
+      p = new Promise(function(resolve, reject) {
+        var k, needWait, ref1, t;
+        needWait = false;
+        for (t = k = 0, ref1 = references[i].transforms.length - 1; 0 <= ref1 ? k <= ref1 : k >= ref1; t = 0 <= ref1 ? ++k : --k) {
+          if (Helper.mapFromURI(references[i].transforms[t]) === XMLSecEnum.WebCryptoAlgMapper.c14n) {
+            needWait = true;
+            new CanonicalXML().canonicalise(transformed).then(function(transformed) {
+              return resolve(transformed);
+            });
+          }
         }
-      }
-      return digestValue = CryptoWrapper.hash(transformed, references[i].digestAlg).then(function(result) {
-        var error;
-        error = "";
-        if (result !== references[i].digestValue) {
-          error = "Reference Validation Error of " + references[i].uri;
+        if (!needWait) {
+          return resolve(transformed);
         }
-        refValRes.push([references[i], transformed, error]);
-        if (i < references.length - 1) {
-          return validateReferences(doc, references, i + 1, res);
-        } else {
-          return refValRes;
-        }
+      });
+      return p.then(function(transformed) {
+        var digestValue;
+        return digestValue = CryptoWrapper.hash(transformed, references[i].digestAlg).then(function(result) {
+          var error;
+          error = "";
+          if (result !== references[i].digestValue) {
+            error = "Reference Validation Error of " + references[i].uri;
+          }
+          refValRes.push([references[i], transformed, error]);
+          if (i < references.length - 1) {
+            return validateReferences(doc, references, i + 1, res);
+          } else {
+            return refValRes;
+          }
+        });
       });
     };
 

@@ -1,21 +1,23 @@
+window.setImmediate = require('timers').setImmediate;
+c14n = require("xml-c14n")()
+
 class window.CanonicalXML
-  RawXML : ""
-  CanonXML : ""
-  CanonicalisationMethod : "http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
+  CanonicalisationMethod : "http://www.w3.org/2001/10/xml-exc-c14n#WithComments"
 
   ###
-  Erzeugt ein Neues Caninicalisiertes XML document
+  Erzeugt einen neuen Canonicalisierer
   ###
-  constructor : (@RawXML, Algorithm) ->
-    ###
-    can = new Canonicalisation_Module_Incl
-    namespaces = {inclusiveNamespacesPrefixList:"ds"}
-    @CanonXML = can.createCanonicaliser("http://www.w3.org/TR/2001/REC-xml-c14n-20010315").canonicalise(@RawXML,namespaces)
-    #@CanonXML=@CanonXML.replace(/>\s*</g,"><")
-    #@CanonicalXML = $.parseXML(@CanonicalXML)
-
-    ###
-    can = new Canonicalisation_Module.ExclusiveCanonicalizationWithComments
-    #namespaces = {inclusiveNamespacesPrefixList:"ds"}
-    @CanonXML = can.process(@RawXML)
-    @CanonicalisationMethod = can.getAlgorithmName()
+  constructor : (Algorithm) -> # Algorithm is ignored for now, default is used
+    @can = c14n.createCanonicaliser @CanonicalisationMethod
+  
+  ###
+  Erzeugt einen Promise für ein neues canonicalisiertes XML document
+  ###
+  canonicalise : (RawXML) ->
+    can = @can
+    new Promise (resolve, reject) ->
+      can.canonicalise RawXML, (err, res) ->
+        if err
+          reject(err)
+        else
+          resolve(res)

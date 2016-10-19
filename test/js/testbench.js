@@ -20,7 +20,7 @@
 
   PlainDocument = "";
 
-  documentRoot = "./Documents";
+  documentRoot = "./test/Documents";
 
   refenceDocument = "/Original_XML/Minimal.xml";
 
