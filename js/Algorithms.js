@@ -1,9 +1,12 @@
 (function() {
   window.Algorithms = (function() {
+    function Algorithms() {}
+
 
     /*
     Provides access to the internal identifiers
      */
+
     Algorithms.EncryptionAlgorithms = {
       AES: {
         CBC: {
@@ -40,10 +43,12 @@
       Enveloped_Signature: "envSig"
     };
 
-    function Algorithms() {}
-
     return Algorithms;
 
   })();
+
+  ({
+    constructor: function() {}
+  });
 
 }).call(this);
