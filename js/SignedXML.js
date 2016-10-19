@@ -453,7 +453,7 @@
           break;
         }
       }
-      modulus = base64ArrayBuffer(modulusArray);
+      modulus = Helper.arrayBufferToBase64(modulusArray);
       modulus = Helper.base64ToBase64URL(modulus);
       exponentArray = new Uint8Array(Helper.base64ToArrayBuffer(exponent));
       for (i = l = 0, ref2 = exponentArray.length - 1; 0 <= ref2 ? l <= ref2 : l >= ref2; i = 0 <= ref2 ? ++l : --l) {
@@ -463,7 +463,7 @@
           break;
         }
       }
-      exponent = base64ArrayBuffer(exponentArray);
+      exponent = Helper.arrayBufferToBase64(exponentArray);
       exponent = Helper.base64ToBase64URL(exponent);
       return window.crypto.subtle.importKey("jwk", {
         kty: params.kty,

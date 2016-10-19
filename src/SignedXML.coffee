@@ -461,7 +461,7 @@ class window.SignedXML
 
     #Then convert the hex to base64URL needed for WebCryptoAPI import
     #modulus =  convertHex2Base64(hex.toString())
-    modulus=base64ArrayBuffer(modulusArray)
+    modulus=Helper.arrayBufferToBase64(modulusArray)
     modulus = Helper.base64ToBase64URL(modulus)
 
     exponentArray=new Uint8Array(Helper.base64ToArrayBuffer(exponent))
@@ -472,7 +472,7 @@ class window.SignedXML
       else
         break
 
-    exponent =  base64ArrayBuffer(exponentArray)
+    exponent =  Helper.arrayBufferToBase64(exponentArray)
     exponent = Helper.base64ToBase64URL(exponent)
 
     #Import the key

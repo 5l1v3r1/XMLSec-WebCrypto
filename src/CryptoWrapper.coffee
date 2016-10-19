@@ -22,7 +22,7 @@ class window.CryptoWrapper
       )
     .then((signiture) ->
         # Parse arrayBuffer into a base64 encoded string
-        return base64ArrayBuffer(signiture)
+        return Helper.arrayBufferToBase64(signiture)
       )
   ###
   Signature verification
@@ -68,7 +68,7 @@ class window.CryptoWrapper
     )
     .then((wrappedKey)->
       # parse the wrapped key ArrayBuffer into a base54 encoded string
-      return base64ArrayBuffer(wrappedKey)
+      return Helper.arrayBufferToBase64(wrappedKey)
       )
     .then(null,(err)->
       console.error(err)
@@ -138,7 +138,7 @@ class window.CryptoWrapper
       #put the IV and the encrypted data together
       encrypted = Helper.concatArrayBuffers(IV,encrypted)
       #encode the data to base64
-      return result=[base64ArrayBuffer(encrypted),nodeType]
+      return result=[Helper.arrayBufferToBase64(encrypted),nodeType]
     )
 
   ###
@@ -248,7 +248,7 @@ class window.CryptoWrapper
     crypto.subtle.digest(algorithm,buffer)
     .then((digest)->
       #convert the result into a base64 string an return it
-      base64ArrayBuffer(digest)
+      Helper.arrayBufferToBase64(digest)
       )
     .then( null, (err) ->
       return err)

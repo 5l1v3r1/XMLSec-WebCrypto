@@ -23,7 +23,7 @@ Wrapper-Class for Web Crypto API function calls
           name: signatureParams.hash
         }
       }, signatureParams.privateKey, buffer).then(function(signiture) {
-        return base64ArrayBuffer(signiture);
+        return Helper.arrayBufferToBase64(signiture);
       });
     };
 
@@ -63,7 +63,7 @@ Wrapper-Class for Web Crypto API function calls
           name: asymKey.algorithm.hash.name
         }
       }).then(function(wrappedKey) {
-        return base64ArrayBuffer(wrappedKey);
+        return Helper.arrayBufferToBase64(wrappedKey);
       }).then(null, function(err) {
         return console.error(err);
       });
@@ -121,7 +121,7 @@ Wrapper-Class for Web Crypto API function calls
       }, key, buffer).then(function(encrypted) {
         var result;
         encrypted = Helper.concatArrayBuffers(IV, encrypted);
-        return result = [base64ArrayBuffer(encrypted), nodeType];
+        return result = [Helper.arrayBufferToBase64(encrypted), nodeType];
       });
     };
 
@@ -210,7 +210,7 @@ Wrapper-Class for Web Crypto API function calls
       var buffer;
       buffer = new TextEncoder("utf-8").encode(input);
       return crypto.subtle.digest(algorithm, buffer).then(function(digest) {
-        return base64ArrayBuffer(digest);
+        return Helper.arrayBufferToBase64(digest);
       }).then(null, function(err) {
         return err;
       });

@@ -36,6 +36,52 @@
 
 
     /*
+    Converts an ArrayBuffer directly to base64, without any intermediate 'convert to string then
+    use window.btoa' step. Adapted from http://jsperf.com/encoding-xhr-image-data/5
+     */
+
+    Helper.arrayBufferToBase64 = function(arrayBuffer) {
+      var a, b, base64, byteLength, byteRemainder, bytes, c, chunk, chunks, encodings, get3To4Conversion, i, mainLength;
+      encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+      bytes = new Uint8Array(arrayBuffer);
+      byteLength = bytes.byteLength;
+      byteRemainder = byteLength % 3;
+      mainLength = byteLength - byteRemainder;
+      get3To4Conversion = function(i) {
+        var a, b, c, chunk, d;
+        chunk = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2];
+        a = (chunk & 16515072) >> 18;
+        b = (chunk & 258048) >> 12;
+        c = (chunk & 4032) >> 6;
+        d = chunk & 63;
+        return encodings[a] + encodings[b] + encodings[c] + encodings[d];
+      };
+      chunks = (function() {
+        var j, ref, results;
+        results = [];
+        for (i = j = 0, ref = mainLength; j < ref; i = j += 3) {
+          results.push(get3To4Conversion(i));
+        }
+        return results;
+      })();
+      base64 = chunks.join('');
+      if (byteRemainder === 1) {
+        chunk = bytes[mainLength];
+        a = (chunk & 252) >> 2;
+        b = (chunk & 3) << 4;
+        base64 += encodings[a] + encodings[b] + '==';
+      } else if (byteRemainder === 2) {
+        chunk = (bytes[mainLength] << 8) | bytes[mainLength + 1];
+        a = (chunk & 64512) >> 10;
+        b = (chunk & 1008) >> 4;
+        c = (chunk & 15) << 2;
+        base64 += encodings[a] + encodings[b] + encodings[c] + '=';
+      }
+      return base64;
+    };
+
+
+    /*
     Concatinates two arrayBuffers results in buffer1||buffer2
     buffer1: The first Buffer
     buffer2: The second Buffer
@@ -57,7 +103,7 @@
     Helper.generateGUID = function() {
       var id;
       id = window.crypto.getRandomValues(new Uint8Array(32));
-      id = base64ArrayBuffer(id);
+      id = Helper.arrayBufferToBase64(id);
       return id = Helper.base64ToBase64URL(id);
     };
 
