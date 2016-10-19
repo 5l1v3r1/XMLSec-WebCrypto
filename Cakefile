@@ -32,11 +32,13 @@ task 'package', 'Convert package.coffee to package.json', (options, callback) ->
     spawn 'rm', ['package.js']
     
 task 'buildLibs', 'Convert Node.JS libs for the browser', (options, callback) ->
-  browserify = spawn 'node', ['./node_modules/browserify/bin/cmd.js', 'js/CanonicalXML.js', '-o', 'js/CanonicalXML.converted.js']
-  browserify.stderr.on 'data', (data) ->
-    process.stderr.write data.toString()
-  browserify.stdout.on 'data', (data) ->
-    console.log data.toString()
-  browserify.on 'exit', (code) ->
+  exec 'node ./node_modules/browserify/bin/cmd.js js/CanonicalXML.js -o js/CanonicalXML.converted.js', (err, stdout, stderr) ->
+    if err
+      console.log stdout + stderr
+      throw err if err
     exec 'rm -f js/CanonicalXML.js', (err, stdout, stderr) ->
-      exec 'mv js/CanonicalXML.converted.js js/CanonicalXML.js', (err, stdout, stderr) ->
+      exec 'mv js/CanonicalXML.converted.js js/CanonicalXML.js'
+  exec 'node ./node_modules/browserify/bin/cmd.js ./node_modules/xml-c14n/index.js -o lib/xml-c14n.js', (err, stdout, stderr) ->
+    if err
+      console.log stdout + stderr
+      throw err if err
