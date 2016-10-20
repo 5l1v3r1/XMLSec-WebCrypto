@@ -1,9 +1,9 @@
 fs = require 'fs'
-
+mkdirp = require 'mkdirp'
 {print} = require 'util'
 {spawn,exec} = require 'child_process'
 
-build = (dest, src, callback) ->
+compile = (dest, src, callback) ->
   coffee = spawn 'coffee', ['--compile', '--no-header', '-o', dest, src]
   coffee.stderr.on 'data', (data) ->
     process.stderr.write data.toString()
@@ -12,33 +12,59 @@ build = (dest, src, callback) ->
   coffee.on 'exit', (code) ->
     callback?() if code is 0
 
-task 'build', 'Build project', (options, callback) ->
-  invoke 'package'
-  invoke 'buildAllJS'
+makeUgly = (infile, outfile) ->
+  uglify = require('uglify-js')
+  code = uglify.minify(infile).code
+  fs.writeFileSync(outfile, code)
+  console.log("Minified " + outfile)
 
-task 'buildAllJS', 'Build js from coffee', (options, callback) ->
-  build 'js', 'src', ->
-    invoke 'buildLibs'
+task 'build', 'Build project', ->
+  invoke 'package'
+  build()
+  
+build = ->
+  compile 'js', 'src', ->
     invoke 'buildTests'
- 
-task 'buildTests', 'Build Tests', (options, callback) ->
-   build('test/js', 'test/src')
+    invoke 'buildLibs'
+
+task 'buildTests', 'Build Tests', ->
+   compile 'test/js', 'test/src'
    
-task 'package', 'Convert package.coffee to package.json', (options, callback) ->
+task 'package', 'Convert package.coffee to package.json', ->
   coffee = spawn 'coffee', ['-c', 'package.coffee']
   coffee.on 'exit', (code) ->
     pkgInfo = require './package.js'
     fs.writeFile "package.json", JSON.stringify(pkgInfo, null, 2)
     spawn 'rm', ['package.js']
     
-task 'buildLibs', 'Convert Node.JS libs for the browser', (options, callback) ->
+task 'buildLibs', 'Convert Node.JS libs for the browser', ->
+  buildLibs ->
+    filenames = ['node_modules/xpath/xpath.js']
+    filenames = filenames.concat "lib/#{file}" for file in fs.readdirSync 'lib'
+    filenames = filenames.concat "js/helper/#{file}" for file in fs.readdirSync 'js/helper'
+    filenames = filenames.concat "js/#{file}" for file in fs.readdirSync 'js'
+    filenames = filenames.filter (element, index, array) ->
+      return fs.statSync(element).isFile()
+    dest = 'xmlsec-webcrypto'
+    mkdirp 'dist', ->
+      exec "cat #{filenames.join(' ')} > dist/#{dest}.uncompressed.js", (err, stdout, stderr) ->
+        if err
+          console.log stdout + stderr
+          throw err if err
+        console.log "Uglifying #{dest}"
+        makeUgly "dist/#{dest}.uncompressed.js", "dist/#{dest}.js"
+        exec "rm dist/#{dest}.uncompressed.js"
+
+buildLibs = (callback) ->
   exec 'node ./node_modules/browserify/bin/cmd.js js/CanonicalXML.js -o js/CanonicalXML.converted.js', (err, stdout, stderr) ->
     if err
       console.log stdout + stderr
       throw err if err
     exec 'rm -f js/CanonicalXML.js', (err, stdout, stderr) ->
-      exec 'mv js/CanonicalXML.converted.js js/CanonicalXML.js'
-  exec 'node ./node_modules/browserify/bin/cmd.js ./node_modules/xml-c14n/index.js -o lib/xml-c14n.js', (err, stdout, stderr) ->
-    if err
-      console.log stdout + stderr
-      throw err if err
+      exec 'mv js/CanonicalXML.converted.js js/CanonicalXML.js', (err, stdout, stderr) ->
+          mkdirp 'lib', ->
+            exec 'node ./node_modules/browserify/bin/cmd.js ./node_modules/xml-c14n/index.js -o lib/xml-c14n.js', (err, stdout, stderr) ->
+              if err
+                console.log stdout + stderr
+                throw err if err
+              callback?()

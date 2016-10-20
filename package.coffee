@@ -17,6 +17,8 @@ module.exports =
     "xml-c14n": ">=0.0.6"
     xpath: ">=0.0.23"
     browserify: "~13"
+    "uglify-js": "~2.7"
+    mkdirp: "*"
     
   engine: "node >= 0.6"
 
