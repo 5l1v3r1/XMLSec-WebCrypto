@@ -29,16 +29,16 @@
         var n, ref2, results;
         results = [];
         for (i = n = 0, ref2 = nodelist.length - 1; 0 <= ref2 ? n <= ref2 : n >= ref2; i = 0 <= ref2 ? ++n : --n) {
-          results.push(CryptoWrapper.Encryption(nodelist[i], encParams.symKey, encParams.staticIV).then(function(chipherValue) {
+          results.push(CryptoWrapper.Encryption(nodelist[i], encParams.symKey, encParams.staticIV).then(function(cipherValue) {
             var encData, encKeyid;
             if (encParams.withKeyInfo) {
               encKeyid = "Id_" + encParams.asymKeyName + "_" + Helper.generateGUID();
-              return encData = createEncryptedData(chipherValue[0], chipherValue[1], encParams, encKeyid).then(function(result) {
+              return encData = createEncryptedData(cipherValue[0], cipherValue[1], encParams, encKeyid).then(function(result) {
                 encData = $.parseXML(result);
                 return encryptedDataNodes.push([encData, encParams.keyName]);
               });
             } else {
-              encData = createEncryptedData(chipherValue[0], chipherValue[1], encParams, encKeyid);
+              encData = createEncryptedData(cipherValue[0], cipherValue[1], encParams, encKeyid);
               encData = $.parseXML(encData);
               return encryptedDataNodes.push([encData, ""]);
             }

@@ -1,11 +1,3 @@
-RSAOAEP_Enc = ""
-RSAOAEP_Dec = ""
-RSASSA_Ver = ""
-RSASSA_Sign = ""
-AES128Key = ""
-AES256Key = ""
-HMAC = ""
-Keys = []
 PlainDocument = ""
 documentRoot = "./test/Documents"
 refenceDocument = "/Original_XML/Minimal.xml"
@@ -83,7 +75,7 @@ loadKeys = () ->
   console.log "Loading Keys";
   Promise.all(
     for i in [0..6]
-      if(i<2)
+      if (i==0)
         window.crypto.subtle.importKey(
           "raw",
           Raw[i],
@@ -94,7 +86,23 @@ loadKeys = () ->
           ["encrypt","decrypt"]
         )
         .then((key)->
-          Keys.push(key)
+          @AES128Key = key
+          )
+        .then(null,(err)->
+          console.error(err)
+        )
+      else if (i==1)
+        window.crypto.subtle.importKey(
+          "raw",
+          Raw[i],
+          {
+            name:"AES-CBC"
+          },
+          true,
+          ["encrypt","decrypt"]
+        )
+        .then((key)->
+          @AES256Key = key
           )
         .then(null,(err)->
           console.error(err)
@@ -112,7 +120,7 @@ loadKeys = () ->
         )
 
         .then((key)->
-          Keys.push(key)
+          @RSAOAEP_Dec = key
           )
         .then(null,(err)->
           console.error(err)
@@ -128,7 +136,7 @@ loadKeys = () ->
           ["encrypt","wrapKey"]
         )
         .then((key)->
-          Keys.push(key)
+          @RSAOAEP_Enc = key
           )
         .then(null,(err)->
           console.error(err)
@@ -145,7 +153,7 @@ loadKeys = () ->
           ["verify"]
         )
         .then((key)->
-          Keys.push(key)
+          @RSASSA_Ver = key
           )
         .then(null,(err)->
           console.error(err)
@@ -161,7 +169,7 @@ loadKeys = () ->
           ["sign"]
         )
         .then((key)->
-          Keys.push(key)
+          @RSASSA_Sign = key
           )
         .then(null,(err)->
           console.error(err)
@@ -177,22 +185,12 @@ loadKeys = () ->
           ["sign","verify"]
         )
         .then((key)->
-          Keys.push(key)
+          @HMAC = key
           )
         .then(null,(err)->
           console.error(err)
         )
   )
-  .then((test)->
-    @AES128Key = Keys[0]
-    @AES256Key = Keys[1]
-    @RSAOAEP_Dec = Keys[2]
-    @RSAOAEP_Enc = Keys[3]
-    @RSASSA_Ver = Keys[4]
-    @RSASSA_Sign = Keys[5]
-    @HMAC = Keys[6]
-  )
-
 
 RunTest = () ->
   resetResults()

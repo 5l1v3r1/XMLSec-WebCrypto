@@ -1,21 +1,5 @@
 (function() {
-  var AES128Key, AES256Key, DigestAlgIdentifiers, HMAC, Keys, PlainDocument, RSAOAEP_Dec, RSAOAEP_Enc, RSASSA_Sign, RSASSA_Ver, RunTest, SignaturAlgorithemIdenifiers, TransformIdentifiers, compare, decrypt, deselectAll, documentRoot, encrypt, exportKey, loadKeys, refenceDocument, refenceDocument2, refenceDocument3, resetResults, selectAll, sign, test_Decryption_All_Book_Elements, test_Decryption_Complete_Doc, test_Decryption_Content, test_Decryption_Content_and_Element, test_Decryption_ISO_All_Book_Elements, test_Decryption_ISO_Complete_Doc, test_Decryption_ISO_Content, test_Decryption_ISO_Content_and_Element, test_Decryption_ISO_OneChild, test_Decryption_ISO_OneElement, test_Decryption_OneChild, test_Decryption_OneElement, test_Encryption_All_Book_Elements, test_Encryption_Complete_Doc, test_Encryption_Content, test_Encryption_Content_and_Element, test_Encryption_OneChild, test_Encryption_OneElement_By_Id, test_Encryption_TwoElements_By_Id, test_KeyInfo_Roundtrip_TwoElements, test_KeyInfo_Roundtrip_oneElement, test_MAC_Sign_Complete_Document, test_SignDetached_AllBookElements, test_SignDetached_Complete_Document, test_SignDetached_OneChildElement, test_SignDetached_OneElementById, test_SignDetached_TwoElementsById, test_Sign_AllBookElements, test_Sign_Complete_Document, test_Sign_OneChildElement, test_Sign_OneElementById, test_Sign_TwoElementsById, test_VerifyDetached_AllBookElements, test_VerifyDetached_Complete_Document, test_VerifyDetached_OneChildElement, test_VerifyDetached_OneElementById, test_VerifyDetached_TwoElementsById, test_Verify_AllBookElements, test_Verify_Complete_Document, test_Verify_MAC_Complete_Document, test_Verify_NegativeDigest, test_Verify_NegativeSignatureValue, test_Verify_Negative_WrongKey, test_Verify_OneChildElement, test_Verify_OneElementById, test_Verify_TwoElementsById, verify, visualisation;
-
-  RSAOAEP_Enc = "";
-
-  RSAOAEP_Dec = "";
-
-  RSASSA_Ver = "";
-
-  RSASSA_Sign = "";
-
-  AES128Key = "";
-
-  AES256Key = "";
-
-  HMAC = "";
-
-  Keys = [];
+  var DigestAlgIdentifiers, PlainDocument, RunTest, SignaturAlgorithemIdenifiers, TransformIdentifiers, compare, decrypt, deselectAll, documentRoot, encrypt, exportKey, loadKeys, refenceDocument, refenceDocument2, refenceDocument3, resetResults, selectAll, sign, test_Decryption_All_Book_Elements, test_Decryption_Complete_Doc, test_Decryption_Content, test_Decryption_Content_and_Element, test_Decryption_ISO_All_Book_Elements, test_Decryption_ISO_Complete_Doc, test_Decryption_ISO_Content, test_Decryption_ISO_Content_and_Element, test_Decryption_ISO_OneChild, test_Decryption_ISO_OneElement, test_Decryption_OneChild, test_Decryption_OneElement, test_Encryption_All_Book_Elements, test_Encryption_Complete_Doc, test_Encryption_Content, test_Encryption_Content_and_Element, test_Encryption_OneChild, test_Encryption_OneElement_By_Id, test_Encryption_TwoElements_By_Id, test_KeyInfo_Roundtrip_TwoElements, test_KeyInfo_Roundtrip_oneElement, test_MAC_Sign_Complete_Document, test_SignDetached_AllBookElements, test_SignDetached_Complete_Document, test_SignDetached_OneChildElement, test_SignDetached_OneElementById, test_SignDetached_TwoElementsById, test_Sign_AllBookElements, test_Sign_Complete_Document, test_Sign_OneChildElement, test_Sign_OneElementById, test_Sign_TwoElementsById, test_VerifyDetached_AllBookElements, test_VerifyDetached_Complete_Document, test_VerifyDetached_OneChildElement, test_VerifyDetached_OneElementById, test_VerifyDetached_TwoElementsById, test_Verify_AllBookElements, test_Verify_Complete_Document, test_Verify_MAC_Complete_Document, test_Verify_NegativeDigest, test_Verify_NegativeSignatureValue, test_Verify_Negative_WrongKey, test_Verify_OneChildElement, test_Verify_OneElementById, test_Verify_TwoElementsById, verify, visualisation;
 
   PlainDocument = "";
 
@@ -94,11 +78,19 @@
       var j, results;
       results = [];
       for (i = j = 0; j <= 6; i = ++j) {
-        if (i < 2) {
+        if (i === 0) {
           results.push(window.crypto.subtle.importKey("raw", Raw[i], {
             name: "AES-CBC"
           }, true, ["encrypt", "decrypt"]).then(function(key) {
-            return Keys.push(key);
+            return this.AES128Key = key;
+          }).then(null, function(err) {
+            return console.error(err);
+          }));
+        } else if (i === 1) {
+          results.push(window.crypto.subtle.importKey("raw", Raw[i], {
+            name: "AES-CBC"
+          }, true, ["encrypt", "decrypt"]).then(function(key) {
+            return this.AES256Key = key;
           }).then(null, function(err) {
             return console.error(err);
           }));
@@ -109,7 +101,7 @@
               name: "SHA-1"
             }
           }, true, ["decrypt", "unwrapKey"]).then(function(key) {
-            return Keys.push(key);
+            return this.RSAOAEP_Dec = key;
           }).then(null, function(err) {
             return console.error(err);
           }));
@@ -120,7 +112,7 @@
               name: "SHA-1"
             }
           }, true, ["encrypt", "wrapKey"]).then(function(key) {
-            return Keys.push(key);
+            return this.RSAOAEP_Enc = key;
           }).then(null, function(err) {
             return console.error(err);
           }));
@@ -131,7 +123,7 @@
               name: "SHA-1"
             }
           }, true, ["verify"]).then(function(key) {
-            return Keys.push(key);
+            return this.RSASSA_Ver = key;
           }).then(null, function(err) {
             return console.error(err);
           }));
@@ -142,7 +134,7 @@
               name: "SHA-1"
             }
           }, true, ["sign"]).then(function(key) {
-            return Keys.push(key);
+            return this.RSASSA_Sign = key;
           }).then(null, function(err) {
             return console.error(err);
           }));
@@ -153,7 +145,7 @@
               name: "SHA-1"
             }
           }, true, ["sign", "verify"]).then(function(key) {
-            return Keys.push(key);
+            return this.HMAC = key;
           }).then(null, function(err) {
             return console.error(err);
           }));
@@ -162,15 +154,7 @@
         }
       }
       return results;
-    })()).then(function(test) {
-      this.AES128Key = Keys[0];
-      this.AES256Key = Keys[1];
-      this.RSAOAEP_Dec = Keys[2];
-      this.RSAOAEP_Enc = Keys[3];
-      this.RSASSA_Ver = Keys[4];
-      this.RSASSA_Sign = Keys[5];
-      return this.HMAC = Keys[6];
-    });
+    })());
   };
 
   RunTest = function() {
@@ -904,7 +888,7 @@
 
   compare = function(createdDoc, referenceXML, actualDiv) {
     return $.get(referenceXML, function(compare) {
-      var result, serializer;
+      var compareStr, createdDocStr, parser, serializer;
       if (createdDoc.firstChild.nodeType === 10) {
         createdDoc.firstChild.remove();
       }
@@ -912,17 +896,20 @@
         compare.firstChild.remove();
       }
       serializer = new XMLSerializer;
-      createdDoc = serializer.serializeToString(createdDoc);
-      createdDoc = createdDoc.replace(/\r?\n|\r/g, '');
-      createdDoc = createdDoc.replace(/\>\s+\</g, '><');
-      compare = serializer.serializeToString(compare);
-      compare = compare.replace(/\r?\n|\r/g, '');
-      compare = compare.replace(/\>\s+\</g, '><');
-      result = false;
-      if (createdDoc === compare) {
-        result = true;
+      createdDocStr = serializer.serializeToString(createdDoc);
+      createdDocStr = createdDocStr.replace(/\r?\n|\r/g, '');
+      createdDocStr = createdDocStr.replace(/\>\s+\</g, '><');
+      compareStr = serializer.serializeToString(compare);
+      compareStr = compareStr.replace(/\r?\n|\r/g, '');
+      compareStr = compareStr.replace(/\>\s+\</g, '><');
+      parser = new DOMParser();
+      createdDoc = parser.parseFromString(createdDocStr, "text/xml");
+      compare = parser.parseFromString(compareStr, "text/xml");
+      if (createdDoc.documentElement.isEqualNode(compare.documentElement)) {
+        return visualisation(actualDiv, true);
+      } else {
+        return visualisation(actualDiv, false);
       }
-      return visualisation(actualDiv, result);
     });
   };
 

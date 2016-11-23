@@ -143,38 +143,35 @@
      */
 
     ElementBuilder.buildEncryptedDataElement = function(typeToEncrypt, chipherValue, encParams, encKey, encKeyId) {
-      var attrNsPrefix, chipherDataNode, chipherValueNode, cipherValueText, createdDoc, docType, encDataNode, encMethodNode, keyInfoNode, keyNameNode, keyNameText, prefix, serializer, xmlDoc, xmlNsAttrKeyInfo;
+      var chipherDataNode, chipherValueNode, cipherValueText, createdDoc, docType, encDataNode, encMethodNode, keyInfoNode, keyNameNode, keyNameText, prefix, serializer, xmlDoc, xmlNsAttrKeyInfo;
       prefix = encParams.prefix;
       if (prefix) {
-        attrNsPrefix = ":" + prefix.replace(":", "");
         xmlNsAttrKeyInfo = ":" + encParams.keyInfoPrefix.replace(":", "");
       } else {
         prefix = "";
-        attrNsPrefix = "";
       }
       docType = document.implementation.createDocumentType("dummy", "dummy", "<!ENTITY dummy 'dummy'>");
       xmlDoc = document.implementation.createDocument("", "EncData", docType);
-      encDataNode = xmlDoc.createElement(prefix + "EncryptedData");
+      encDataNode = xmlDoc.createElementNS(XMLSecEnum.namespaceURIs.xmlEnc, prefix + "EncryptedData");
       if (encKeyId) {
         encDataNode.setAttribute("id", encKeyId);
       }
       encDataNode.setAttribute("Type", typeToEncrypt);
-      encDataNode.setAttribute("xmlns" + attrNsPrefix, XMLSecEnum.namespaceURIs.xmlEnc);
-      encMethodNode = xmlDoc.createElement(prefix + "EncryptionMethod");
+      encMethodNode = xmlDoc.createElementNS(XMLSecEnum.namespaceURIs.xmlEnc, prefix + "EncryptionMethod");
       encMethodNode.setAttribute("Algorithm", encParams.algIdentifer);
       encDataNode.appendChild(encMethodNode);
       if (encKey) {
-        keyInfoNode = xmlDoc.createElement(encParams.keyInfoPrefix + "KeyInfo");
+        keyInfoNode = xmlDoc.createElementNS(XMLSecEnum.namespaceURIs.xmlSig, encParams.keyInfoPrefix + "KeyInfo");
         keyInfoNode.setAttribute("xmlns" + xmlNsAttrKeyInfo, XMLSecEnum.namespaceURIs.xmlSig);
-        keyNameNode = xmlDoc.createElement(encParams.keyInfoPrefix + "KeyName");
+        keyNameNode = xmlDoc.createElementNS(XMLSecEnum.namespaceURIs.xmlSig, encParams.keyInfoPrefix + "KeyName");
         keyNameText = xmlDoc.createTextNode(encParams.asymKeyName);
         keyNameNode.appendChild(keyNameText);
         keyInfoNode.appendChild(keyNameNode);
         keyInfoNode.appendChild(encKey);
         encDataNode.appendChild(keyInfoNode);
       }
-      chipherDataNode = xmlDoc.createElement(prefix + "CipherData");
-      chipherValueNode = xmlDoc.createElement(prefix + "CipherValue");
+      chipherDataNode = xmlDoc.createElementNS(XMLSecEnum.namespaceURIs.xmlEnc, prefix + "CipherData");
+      chipherValueNode = xmlDoc.createElementNS(XMLSecEnum.namespaceURIs.xmlEnc, prefix + "CipherValue");
       cipherValueText = xmlDoc.createTextNode(chipherValue);
       chipherValueNode.appendChild(cipherValueText);
       chipherDataNode.appendChild(chipherValueNode);
