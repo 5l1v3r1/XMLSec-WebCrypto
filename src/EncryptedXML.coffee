@@ -23,13 +23,13 @@ class window.EncryptedXML
       #encrypt all selected elements
       for i in [0..nodelist.length-1]
         CryptoWrapper.Encryption(nodelist[i],encParams.symKey,encParams.staticIV)
-        .then((chipherValue) ->
+        .then((cipherValue) ->
           #if a keyInfo Element has to be created, do so.
           if(encParams.withKeyInfo)
             #generte a id for the EncryptedData Element to bind it to the keyInfo Element
             encKeyid = "Id_"+ encParams.asymKeyName+"_"+Helper.generateGUID()
             #Create the EncryptedData element
-            encData = createEncryptedData(chipherValue[0],chipherValue[1],encParams,encKeyid)
+            encData = createEncryptedData(cipherValue[0],cipherValue[1],encParams,encKeyid)
             .then((result)->
               #parse the result
               encData= $.parseXML(result)
@@ -39,7 +39,7 @@ class window.EncryptedXML
           #if no KeyInfo is used
           else
             #create the encryptedData element without keyInfo
-            encData = createEncryptedData(chipherValue[0],chipherValue[1],encParams,encKeyid)
+            encData = createEncryptedData(cipherValue[0],cipherValue[1],encParams,encKeyid)
             encData= $.parseXML(encData)
             #and put it in the list
             encryptedDataNodes.push([encData,""])
