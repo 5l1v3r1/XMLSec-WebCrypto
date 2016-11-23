@@ -824,7 +824,7 @@ compare = (createdDoc,referenceXML,actualDiv) ->
       createdDoc.firstChild.remove()
     if compare.firstChild.nodeType == 10
       compare.firstChild.remove()
-
+      
     serializer = new XMLSerializer
     createdDocStr = serializer.serializeToString(createdDoc)
     createdDocStr = createdDocStr.replace(/\r?\n|\r/g,'')
@@ -832,19 +832,15 @@ compare = (createdDoc,referenceXML,actualDiv) ->
     compareStr = serializer.serializeToString(compare)
     compareStr = compareStr.replace(/\r?\n|\r/g,'')
     compareStr = compareStr.replace(/\>\s+\</g,'><')
-    if(createdDocStr == compareStr)
-      return visualisation(actualDiv, true)
-    else if (compare.firstElementChild.attributes[1]?)
-      # Firefox swaps attributes, therefore we check again
-      atts = compare.firstElementChild.attributes
-      firstAttribute = atts[0].name + '="' + atts[0].value + '"'
-      secondAttribute = atts[1].name + '="' + atts[1].value + '"'
-      compareStr = compareStr.replace(secondAttribute, firstAttribute)
-      compareStr = compareStr.replace(firstAttribute, secondAttribute)
-      if(createdDocStr == compareStr)
-        return visualisation(actualDiv, true)
-    return visualisation(actualDiv, false)
     
+    parser = new DOMParser()
+    createdDoc = parser.parseFromString(createdDocStr, "text/xml"); 
+    compare = parser.parseFromString(compareStr, "text/xml"); 
+    
+    if createdDoc.documentElement.isEqualNode(compare.documentElement)
+      return visualisation(actualDiv, true)
+    else
+      return visualisation(actualDiv, false)    
 
 encrypt = (plainXML,xPath,key,referenceXML,KeyName,asymKey,withKeyInfo,staticIV) ->
   references = []
