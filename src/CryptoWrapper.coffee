@@ -20,9 +20,9 @@ class window.CryptoWrapper
       signatureParams.privateKey, # signing key
       buffer # this will be signed
       )
-    .then((signiture) ->
+    .then((signature) ->
         # Parse arrayBuffer into a base64 encoded string
-        return Helper.arrayBufferToBase64(signiture)
+        return Helper.arrayBufferToBase64(signature)
       )
   ###
   Signature verification
@@ -46,9 +46,9 @@ class window.CryptoWrapper
       buffer # data that has to be verified
 
       )
-    .then((signiture) ->
+    .then((signature) ->
         # return true or false
-        return signiture
+        return signature
       )
 
   ###
