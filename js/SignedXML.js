@@ -283,7 +283,7 @@
     sigXML: Signed Xml document
     publicKey: The verification key
     
-    Returns a SignatureValidationResults object with information about errors, validated References an validated signiture
+    Returns a SignatureValidationResults object with information about errors, validated References an validated signature
      */
 
     SignedXML.prototype.verify = function(sigXML, publicKey) {

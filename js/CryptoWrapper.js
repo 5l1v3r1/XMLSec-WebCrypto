@@ -22,8 +22,8 @@ Wrapper-Class for Web Crypto API function calls
         hash: {
           name: signatureParams.hash
         }
-      }, signatureParams.privateKey, buffer).then(function(signiture) {
-        return Helper.arrayBufferToBase64(signiture);
+      }, signatureParams.privateKey, buffer).then(function(signature) {
+        return Helper.arrayBufferToBase64(signature);
       });
     };
 
@@ -44,8 +44,8 @@ Wrapper-Class for Web Crypto API function calls
         hash: {
           name: signatureParams.signAlg.name
         }
-      }, publicKey, signatureValueBuffer, buffer).then(function(signiture) {
-        return signiture;
+      }, publicKey, signatureValueBuffer, buffer).then(function(signature) {
+        return signature;
       });
     };
 
