@@ -1,3 +1,5 @@
+window.webcryptoImpl ?= window.crypto.subtle
+
 ###
 Wrapper-Class for Web Crypto API function calls
 ###
@@ -12,7 +14,7 @@ class window.CryptoWrapper
   @Sign : (input,signatureParams) ->
     # Parse input into an arrayBuffer
     buffer = new TextEncoder("utf-8").encode(input)
-    window.crypto.subtle.sign(
+    window.webcryptoImpl.sign(
       {
         name: signatureParams.signAlg.name, # SignaturAlgorithm-Name (e.g. RSA)
         hash:{name:signatureParams.hash} # DigestAlgorithem-Name (e.g. SHA1)
@@ -36,7 +38,7 @@ class window.CryptoWrapper
     # parse the base64 encoded signaturevalue in to an ArrayBuffer
     signatureValueBuffer = Helper.base64ToArrayBuffer(signatureParams.signatureValue)
 
-    window.crypto.subtle.verify(
+    window.webcryptoImpl.verify(
       {
         name: signatureParams.signAlg.name, # SignaturAlgorithm-Name (e.g. RSA)
         hash:{name:signatureParams.signAlg.name} # DigestAlgorithem-Name (e.g. SHA1)
@@ -57,7 +59,7 @@ class window.CryptoWrapper
   asymKey: asymetric key used to wrap the symmetric key
   ###
   @WrapKey : (symKey,asymKey) ->
-    window.crypto.subtle.wrapKey(
+    window.webcryptoImpl.wrapKey(
       "raw", # to which format will the symetric key be exported
       symKey, # the symmetric key
       asymKey, # the asymetric kex
@@ -82,7 +84,7 @@ class window.CryptoWrapper
   @UnWrapKey : (encKey,asymKey,symKeyAlg)  ->
     #parse the wrapped key base64 string into an arrayBuffer
     encKey = Helper.base64ToArrayBuffer(encKey)
-    window.crypto.subtle.unwrapKey(
+    window.webcryptoImpl.unwrapKey(
       "raw", # Format of the wrapped key
       encKey, # The warpped key
       asymKey,# The asymmetric key
@@ -126,7 +128,7 @@ class window.CryptoWrapper
     if staticIV
       IV= IV.fill(0)
     #call the Web Crypto API encryption method
-    window.crypto.subtle.encrypt(
+    window.webcryptoImpl.encrypt(
       {
           name: mode, # algorithm an mode of operation (e.g. AES-CBC)
           iv: IV # the IV
@@ -157,7 +159,7 @@ class window.CryptoWrapper
     newPadding = new Uint8Array(16)
     newPadding.fill(16)
     # encrypt the new block with the key an the last block from the original chipher text as IV
-    window.crypto.subtle.encrypt(
+    window.webcryptoImpl.encrypt(
       {
           name: mode, # the algorithm an mode of operation
           iv: lastBlock # the last block from the original chipher text as IV
@@ -192,7 +194,7 @@ class window.CryptoWrapper
       @AES_ModifyPadding(buffer,key) # modify padding
       .then((newBuffer)->
         #decrypt the chipher text with the modified paddinf
-        window.crypto.subtle.decrypt(
+        window.webcryptoImpl.decrypt(
           {
               name: mode, # algorithm an mode of operation
               iv: IV # the iv
@@ -221,7 +223,7 @@ class window.CryptoWrapper
       )
     else
       #if the mode is not "AES-CBC" decryspt without modified padding
-      window.crypto.subtle.decrypt(
+      window.webcryptoImpl.decrypt(
         {
             name: mode, # algorithm an mode of operation
             iv: IV # the iv
@@ -245,7 +247,7 @@ class window.CryptoWrapper
   @hash : (input,algorithm) ->
     buffer = new TextEncoder("utf-8").encode(input) # convert the input string into an arrayBuffer
     #call the Web Crypto API digest method with the algorithm an the data
-    crypto.subtle.digest(algorithm,buffer)
+    webcryptoImpl.digest(algorithm,buffer)
     .then((digest)->
       #convert the result into a base64 string an return it
       Helper.arrayBufferToBase64(digest)

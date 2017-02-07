@@ -1,6 +1,6 @@
+window.webcryptoImpl ?= window.crypto.subtle
+
 class window.SignedXML
-
-
 
   constructor : () ->
     idCount = 0
@@ -82,7 +82,7 @@ class window.SignedXML
     #Since the XML Signature needs a padding of leading "0" we cannot export the key as jwk because the jwk export delivers a base64 string
     #without padding. So we need to export the key as spki an parse it.
     algorithm = key.algorithm.name
-    window.crypto.subtle.exportKey("jwk",key)
+    window.webcryptoImpl.exportKey("jwk",key)
     .then((exportedKey)->
       #if the Algorithm is RSA-SHA1 create a RSAKeyInfo
       #Other Algs are not supported at this time
@@ -476,7 +476,7 @@ class window.SignedXML
     exponent = Helper.base64ToBase64URL(exponent)
 
     #Import the key
-    window.crypto.subtle.importKey(
+    window.webcryptoImpl.importKey(
         "jwk",
         {
             kty: params.kty, #KeyType

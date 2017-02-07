@@ -1,9 +1,13 @@
-
-/*
-Wrapper-Class for Web Crypto API function calls
- */
-
 (function() {
+  if (window.webcryptoImpl == null) {
+    window.webcryptoImpl = window.crypto.subtle;
+  }
+
+
+  /*
+  Wrapper-Class for Web Crypto API function calls
+   */
+
   window.CryptoWrapper = (function() {
     function CryptoWrapper() {}
 
@@ -17,7 +21,7 @@ Wrapper-Class for Web Crypto API function calls
     CryptoWrapper.Sign = function(input, signatureParams) {
       var buffer;
       buffer = new TextEncoder("utf-8").encode(input);
-      return window.crypto.subtle.sign({
+      return window.webcryptoImpl.sign({
         name: signatureParams.signAlg.name,
         hash: {
           name: signatureParams.hash
@@ -39,7 +43,7 @@ Wrapper-Class for Web Crypto API function calls
       var buffer, signatureValueBuffer;
       buffer = new TextEncoder("utf-8").encode(input);
       signatureValueBuffer = Helper.base64ToArrayBuffer(signatureParams.signatureValue);
-      return window.crypto.subtle.verify({
+      return window.webcryptoImpl.verify({
         name: signatureParams.signAlg.name,
         hash: {
           name: signatureParams.signAlg.name
@@ -57,7 +61,7 @@ Wrapper-Class for Web Crypto API function calls
      */
 
     CryptoWrapper.WrapKey = function(symKey, asymKey) {
-      return window.crypto.subtle.wrapKey("raw", symKey, asymKey, {
+      return window.webcryptoImpl.wrapKey("raw", symKey, asymKey, {
         name: asymKey.algorithm.name,
         hash: {
           name: asymKey.algorithm.hash.name
@@ -79,7 +83,7 @@ Wrapper-Class for Web Crypto API function calls
 
     CryptoWrapper.UnWrapKey = function(encKey, asymKey, symKeyAlg) {
       encKey = Helper.base64ToArrayBuffer(encKey);
-      return window.crypto.subtle.unwrapKey("raw", encKey, asymKey, {
+      return window.webcryptoImpl.unwrapKey("raw", encKey, asymKey, {
         name: asymKey.algorithm.name,
         hash: {
           name: asymKey.algorithm.hash.name
@@ -115,7 +119,7 @@ Wrapper-Class for Web Crypto API function calls
       if (staticIV) {
         IV = IV.fill(0);
       }
-      return window.crypto.subtle.encrypt({
+      return window.webcryptoImpl.encrypt({
         name: mode,
         iv: IV
       }, key, buffer).then(function(encrypted) {
@@ -142,7 +146,7 @@ Wrapper-Class for Web Crypto API function calls
       lastBlock = buffer.slice(buffer.byteLength - 16, buffer.byteLength);
       newPadding = new Uint8Array(16);
       newPadding.fill(16);
-      return window.crypto.subtle.encrypt({
+      return window.webcryptoImpl.encrypt({
         name: mode,
         iv: lastBlock
       }, key, newPadding).then(function(newLastBlock) {
@@ -171,7 +175,7 @@ Wrapper-Class for Web Crypto API function calls
       IV = new Uint8Array(IV);
       if (mode === "AES-CBC") {
         return this.AES_ModifyPadding(buffer, key).then(function(newBuffer) {
-          return window.crypto.subtle.decrypt({
+          return window.webcryptoImpl.decrypt({
             name: mode,
             iv: IV
           }, key, newBuffer).then(function(decrypted) {
@@ -188,7 +192,7 @@ Wrapper-Class for Web Crypto API function calls
           });
         });
       } else {
-        return window.crypto.subtle.decrypt({
+        return window.webcryptoImpl.decrypt({
           name: mode,
           iv: IV
         }, key, buffer).then(function(decrypted) {
@@ -209,7 +213,7 @@ Wrapper-Class for Web Crypto API function calls
     CryptoWrapper.hash = function(input, algorithm) {
       var buffer;
       buffer = new TextEncoder("utf-8").encode(input);
-      return crypto.subtle.digest(algorithm, buffer).then(function(digest) {
+      return webcryptoImpl.digest(algorithm, buffer).then(function(digest) {
         return Helper.arrayBufferToBase64(digest);
       }).then(null, function(err) {
         return err;

@@ -1,4 +1,8 @@
 (function() {
+  if (window.webcryptoImpl == null) {
+    window.webcryptoImpl = window.crypto.subtle;
+  }
+
   window.SignedXML = (function() {
     var buildReferenceList, checkForEnveloped, computeSignature, createKeyInfo, createReference, createReferences, createSignedInfo, loadReference, loadSignature, preserveSignedInfo, validateReferences, validateSignatureValue;
 
@@ -81,7 +85,7 @@
     createKeyInfo = function(prefix, key) {
       var algorithm;
       algorithm = key.algorithm.name;
-      return window.crypto.subtle.exportKey("jwk", key).then(function(exportedKey) {
+      return window.webcryptoImpl.exportKey("jwk", key).then(function(exportedKey) {
         var exponent, modulus;
         if (algorithm === XMLSecEnum.WebCryptoAlgMapper.RSASHA1.name) {
           exponent = Helper.base64URLtoBase64(exportedKey.e, exportedKey);
@@ -465,7 +469,7 @@
       }
       exponent = Helper.arrayBufferToBase64(exponentArray);
       exponent = Helper.base64ToBase64URL(exponent);
-      return window.crypto.subtle.importKey("jwk", {
+      return window.webcryptoImpl.importKey("jwk", {
         kty: params.kty,
         e: exponent,
         n: modulus,
