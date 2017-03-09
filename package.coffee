@@ -1,5 +1,5 @@
 module.exports =
-  name: "XMLSec-WebCrypto"
+  name: "xmlsec-webcrypto"
 
   version: "0.1.0"
   description: "An implementation for the XML Security Standard using the W3C WebCrypto API"
