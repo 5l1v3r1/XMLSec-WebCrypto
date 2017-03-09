@@ -25,7 +25,7 @@ task 'build', 'Build project', ->
 build = ->
   compile 'js', 'src', ->
     invoke 'buildTests'
-    invoke 'buildLibs'
+    buildDist()
 
 task 'buildTests', 'Build Tests', ->
    compile 'test/js', 'test/src'
@@ -37,7 +37,7 @@ task 'package', 'Convert package.coffee to package.json', ->
     fs.writeFile "package.json", JSON.stringify(pkgInfo, null, 2)
     spawn 'rm', ['package.js']
     
-task 'buildLibs', 'Convert Node.JS libs for the browser', ->
+buildDist = ->
   buildLibs ->
     filenames = ['node_modules/xpath/xpath.js']
     filenames = filenames.concat "lib/#{file}" for file in fs.readdirSync 'lib'
