@@ -29,3 +29,7 @@ module.exports =
   licenses: [
     type: "MIT"
   ]
+
+  repository:
+    type: "git"
+    url: "https://github.com/RUB-NDS/XMLSec-WebCrypto"
