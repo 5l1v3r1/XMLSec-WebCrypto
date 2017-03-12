@@ -10,21 +10,19 @@ The steps have been tested with Ubuntu:
 
 1. Install Node.js and npm:
 
-       `# apt-get install npm`
+        # apt-get install npm
 1. Ubuntu calls node's binary `nodejs`, but `node` is more common:
 
-       `# ln -s /usr/bin/nodejs /usr/bin/node`
+        # ln -s /usr/bin/nodejs /usr/bin/node
 1. Install Coffeescript: 
 
-       `# npm install -g coffee-script`
+        # npm install -g coffee-script
 1. Compile package info: 
 
-       `$ cake package`
+        $ cake package
 1. Install dependencies: 
 
-       `$ npm install`
-
-       `$ npm update`
+        $ npm install
 1. Compile code: 
 
-       `$ cake build`
+        $ cake build
