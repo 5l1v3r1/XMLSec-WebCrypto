@@ -13,9 +13,9 @@ class window.EncryptedXML
     nodelist = [] #list holding Elements to encrypt
     #iterate trough all references in the encParams and evaluate the xpath
     for j in [0..encParams.references.length-1]
-      nodes[j] = xpath.select(encParams.references[j].xpath,doc)
+      nodes[j] = xpath.select(encParams.references[j].xpath, doc)
       if (nodes[j].length == 0)
-        throw new Error "Node not found or invalid xPath:"+ references[j].xpath
+        throw new Error "Node not found or invalid xPath:" + encParams.references[j].xpath
       #iterate trough the nodeset resulting from the references xpath
       for k in [0..nodes[j].length-1]
         nodelist.push(nodes[j][k]) #list with all node resulting from all xpath

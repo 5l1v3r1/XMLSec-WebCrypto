@@ -19,7 +19,7 @@
       for (j = l = 0, ref = encParams.references.length - 1; 0 <= ref ? l <= ref : l >= ref; j = 0 <= ref ? ++l : --l) {
         nodes[j] = xpath.select(encParams.references[j].xpath, doc);
         if (nodes[j].length === 0) {
-          throw new Error("Node not found or invalid xPath:" + references[j].xpath);
+          throw new Error("Node not found or invalid xPath:" + encParams.references[j].xpath);
         }
         for (k = m = 0, ref1 = nodes[j].length - 1; 0 <= ref1 ? m <= ref1 : m >= ref1; k = 0 <= ref1 ? ++m : --m) {
           nodelist.push(nodes[j][k]);
@@ -34,12 +34,12 @@
             if (encParams.withKeyInfo) {
               encKeyid = "Id_" + encParams.asymKeyName + "_" + Helper.generateGUID();
               return encData = createEncryptedData(cipherValue[0], cipherValue[1], encParams, encKeyid).then(function(result) {
-                encData = $.parseXML(result);
+                encData = utils.parseXML(result);
                 return encryptedDataNodes.push([encData, encParams.keyName]);
               });
             } else {
               encData = createEncryptedData(cipherValue[0], cipherValue[1], encParams, encKeyid);
-              encData = $.parseXML(encData);
+              encData = utils.parseXML(encData);
               return encryptedDataNodes.push([encData, ""]);
             }
           }));
@@ -145,7 +145,7 @@
         var i, l, parentNode, ref;
         for (i = l = 0, ref = decryptedNodes.length - 1; 0 <= ref ? l <= ref : l >= ref; i = 0 <= ref ? ++l : --l) {
           if (decryptedNodes[i][1] === XMLSecEnum.Type.Element) {
-            encData[i].parentNode.replaceChild($.parseXML(decryptedNodes[i][0]).firstChild, encData[i]);
+            encData[i].parentNode.replaceChild(utils.parseXML(decryptedNodes[i][0]).firstChild, encData[i]);
           } else {
             parentNode = encData[i].parentNode;
             encData[i].parentNode.removeChild(encData[i].parentNode.firstChild);
