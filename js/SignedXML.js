@@ -216,11 +216,11 @@
     loadSignature = function(xml, SVR) {
       var SignatureElement, i, k, loadedReferences, nodes, ref1, referencesToLoad, signature, signatureNode, test;
       if (typeof xml === 'string') {
-        signatureNode = $.parseXML(signatureNode);
+        signatureNode = utils.parseXML(signatureNode);
       }
-      SignatureElement = $(xml).find(XMLSecEnum.NodeNames.signature);
-      if (SignatureElement.length > 1) {
-        throw new error("More then one Signature Element detected!");
+      SignatureElement = xpath.select(XMLSecEnum.xPathSelectors.Signature, xml);
+      if (!SignatureElement || SignatureElement.length !== 1) {
+        throw new error("No or more than one Signature Element detected!");
       }
       SVR.setValidatedSignature(SignatureElement);
       signature = new SignatureParams();
@@ -296,7 +296,7 @@
       if the passed XML is a string, parse it
        */
       var SVR, isEnveloped, signature, signedInfo, xml;
-      xml = $.parseXML(sigXML);
+      xml = utils.parseXML(sigXML);
       if (!xml) {
         xml = sigXML;
       }
@@ -349,13 +349,12 @@
      */
 
     preserveSignedInfo = function(signedXml) {
-      var signedInfo, xml;
-      xml = $(signedXml);
-      if (!xml) {
-        xml = signedXml;
+      var nodes;
+      nodes = xpath.select(XMLSecEnum.xPathSelectors.SignedInfo, signedXml);
+      if (!nodes || nodes.length !== 1) {
+        return null;
       }
-      signedInfo = $(xpath.select(XMLSecEnum.xPathSelectors.SignedInfo, signedXml));
-      return signedInfo[0];
+      return nodes[0];
     };
 
 
@@ -389,7 +388,7 @@
 
     validateReferences = function(doc, references, i, res) {
       var node, nodes, p, refValRes, transformed, xmlDoc;
-      xmlDoc = $(doc);
+      xmlDoc = [doc];
       refValRes = res;
       if (!references[i].uri || references[i].uri === "/*") {
         node = xmlDoc[0];
@@ -442,7 +441,7 @@
 
     SignedXML.prototype.loadKey = function(doc) {
       var exponent, exponentArray, hex, i, k, l, modulus, modulusArray, params, ref1, ref2, xml;
-      xml = $.parseXML(doc);
+      xml = utils.parseXML(doc);
       if (!xml) {
         xml = doc;
       }

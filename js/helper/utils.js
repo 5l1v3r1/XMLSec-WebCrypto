@@ -51,6 +51,23 @@ https://github.com/yaronn/ws.js/blob/master/lib/utils.js
       return attr.localName === localName && ((!attr.namespaceURI && node.namespaceURI === namespace) || !namespace);
     };
 
+    utils.parseXML = function(data) {
+      var error, xml;
+      if (!data || typeof data !== "string") {
+        return null;
+      }
+      try {
+        xml = (new window.DOMParser()).parseFromString(data, "text/xml");
+      } catch (error1) {
+        error = error1;
+        xml = void 0;
+      }
+      if (!xml || xml.getElementsByTagName("parsererror").length) {
+        throw "Invalid XML: " + data;
+      }
+      return xml;
+    };
+
     return utils;
 
   })();

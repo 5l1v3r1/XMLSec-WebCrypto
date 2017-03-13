@@ -31,3 +31,18 @@ class window.utils
 
   @attrEqualsImplicitly: (attr, localName, namespace, node) ->
     return attr.localName==localName && ((!attr.namespaceURI && node.namespaceURI==namespace) || !namespace)
+  
+  # borrowed from jquery
+  # https://github.com/jquery/jquery/blob/master/src/ajax/parseXML.js
+  @parseXML: (data) ->
+    if !data or typeof data isnt "string"
+      return null
+    # Support: IE 9 - 11 only
+    # IE throws on parseFromString with invalid input.
+    try
+      xml = (new window.DOMParser()).parseFromString(data, "text/xml")
+    catch error
+      xml = undefined
+    if !xml or xml.getElementsByTagName("parsererror").length
+      throw "Invalid XML: #{data}"
+    return xml

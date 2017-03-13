@@ -32,7 +32,7 @@ class window.EncryptedXML
             encData = createEncryptedData(cipherValue[0],cipherValue[1],encParams,encKeyid)
             .then((result)->
               #parse the result
-              encData= $.parseXML(result)
+              encData= utils.parseXML(result)
               #and put it in the list with the encyptedData elements
               encryptedDataNodes.push([encData,encParams.keyName])
              )
@@ -40,7 +40,7 @@ class window.EncryptedXML
           else
             #create the encryptedData element without keyInfo
             encData = createEncryptedData(cipherValue[0],cipherValue[1],encParams,encKeyid)
-            encData= $.parseXML(encData)
+            encData= utils.parseXML(encData)
             #and put it in the list
             encryptedDataNodes.push([encData,""])
             )
@@ -161,7 +161,7 @@ class window.EncryptedXML
         #if the type from the Type array at index i is "Element". The index of the Type array is the same as the index of the decryptedNodes Array
         if(decryptedNodes[i][1] == XMLSecEnum.Type.Element)
           #replace the encryptedData element with the decrypted element
-          encData[i].parentNode.replaceChild($.parseXML(decryptedNodes[i][0]).firstChild,encData[i])
+          encData[i].parentNode.replaceChild(utils.parseXML(decryptedNodes[i][0]).firstChild,encData[i])
         else
           #if the type is "Conetent" get the parent node
           parentNode = encData[i].parentNode

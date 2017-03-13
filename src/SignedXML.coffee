@@ -218,13 +218,13 @@ class window.SignedXML
   loadSignature =(xml,SVR) ->
     #If the xml is a string, parse it into a XML Document
     if (typeof xml == 'string')
-      signatureNode = $.parseXML(signatureNode)
+      signatureNode = utils.parseXML(signatureNode)
 
     #Get the SignatureElement
-    SignatureElement = $(xml).find(XMLSecEnum.NodeNames.signature)
+    SignatureElement = xpath.select(XMLSecEnum.xPathSelectors.Signature, xml)
     #If more then one Signature Element is detected, stop the operation
-    if SignatureElement.length > 1
-      throw new error "More then one Signature Element detected!"
+    if !SignatureElement or SignatureElement.length != 1
+      throw new error "No or more than one Signature Element detected!"
     #Put the Signature Element in the SVR
     SVR.setValidatedSignature(SignatureElement)
 
@@ -253,7 +253,6 @@ class window.SignedXML
     signature.setSignatureValue(utils.findFirst(xml, XMLSecEnum.xPathSelectors.SingatureValue).data.replace(/\n/g, ''))
 
     #Remove the Signature node from the documentElement
-    #$(xml).find(XMLSecEnum.NodeNames.signature)[0].remove()
     test = xpath.select(XMLSecEnum.xPathSelectors.Signature,xml)[0]
     test.remove()
     #return the created signatureParams object
@@ -305,7 +304,7 @@ class window.SignedXML
     ###
     if the passed XML is a string, parse it
     ###
-    xml = $.parseXML(sigXML)
+    xml = utils.parseXML(sigXML)
     if !xml
       xml=sigXML
     #Creates a new SignatureValidationResults object
@@ -364,11 +363,10 @@ class window.SignedXML
   signedXml : The signed xml document
   ###
   preserveSignedInfo = (signedXml) ->
-    xml = $(signedXml)
-    if !xml
-      xml=signedXml
-    signedInfo = $(xpath.select(XMLSecEnum.xPathSelectors.SignedInfo,signedXml))
-    return signedInfo[0]
+    nodes = xpath.select(XMLSecEnum.xPathSelectors.SignedInfo, signedXml)
+    if !nodes or nodes.length != 1
+      return null
+    return nodes[0]
 
   ###
   Validates the signature value
@@ -395,7 +393,7 @@ class window.SignedXML
   references : The reference objects
   ###
   validateReferences= (doc,references,i,res) ->
-    xmlDoc = $(doc)
+    xmlDoc = [doc]
     refValRes = res
 
     if !references[i].uri or references[i].uri == "/*"
@@ -440,7 +438,7 @@ class window.SignedXML
   ###
   loadKey : (doc) ->
     #if doc is a string, parse it to xml
-    xml = $.parseXML(doc)
+    xml = utils.parseXML(doc)
     if !xml
       xml = doc
     #Read the modulus, exponent and algorithm from the document
