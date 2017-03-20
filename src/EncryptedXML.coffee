@@ -95,9 +95,9 @@ class window.EncryptedXML
     #get the cipherValue from the encrypetedKey element
     encKey = encKeyEle.getElementsByTagName(XMLSecEnum.NodeNames.cipherValue)[0].innerHTML
     #and remove it form to assure that it remains only on cipherValue Element in the encryptedData element.
-    #At the beginnig there are 2: One is the chipherValue form the the other is the cipherValue of the encrypted Data.
+    #At the beginnig there are 2: One is the cipherValue form the the other is the cipherValue of the encrypted Data.
     #The cipherValue in the encrypetedKey is easy to optain, because we can only look at the EncryptedKey element.
-    #If the chipherValueof the encrypetedKey remains in the document and we look for the one of the encrypted data, we don't know which one we get,
+    #If the cipherValueof the encrypetedKey remains in the document and we look for the one of the encrypted data, we don't know which one we get,
     #so remove the first one.
     encKeyEle.parentNode.removeChild(encKeyEle)
     #Unwrap the key
@@ -120,10 +120,10 @@ class window.EncryptedXML
       #the unwrap the symmetric key with this key
       unwrapKey(encData[index],key)
       .then((symKey)->
-        #Get the chipherValue of the encryptedData Element
-        chipherValue = encData[index].getElementsByTagName(XMLSecEnum.NodeNames.cipherValue)[0].innerHTML
+        #Get the cipherValue of the encryptedData Element
+        cipherValue = encData[index].getElementsByTagName(XMLSecEnum.NodeNames.cipherValue)[0].innerHTML
         #and decrypt the encryptedData element with the unwrapped key
-        CryptoWrapper.Decryption(chipherValue,symKey)
+        CryptoWrapper.Decryption(cipherValue,symKey)
         .then((decrypted)->
             #Put the decrypted node in the list
             decryptedNodes.push([decrypted,type])
@@ -134,10 +134,10 @@ class window.EncryptedXML
       )
     #if the passed key is a symmetric key
     else if key.type ==XMLSecEnum.KeyTypes.Secret
-      #get the chipherValue from the encryptedData element
-      chipherValue = encData[index].getElementsByTagName(XMLSecEnum.NodeNames.cipherValue)[0].innerHTML
+      #get the cipherValue from the encryptedData element
+      cipherValue = encData[index].getElementsByTagName(XMLSecEnum.NodeNames.cipherValue)[0].innerHTML
       #decrypt the cipherValue using the symmetric key
-      CryptoWrapper.Decryption(chipherValue,key)
+      CryptoWrapper.Decryption(cipherValue,key)
       .then((decrypted)->
           #put the decrypted Element in the list
           decryptedNodes.push([decrypted,type])
@@ -156,18 +156,18 @@ class window.EncryptedXML
     #Decrypt all EncryptedData nodes recursive
     decryptRecursive(encData,key,decryptedNodes,0)
     .then(()->
-      #iterate through the list of decrpyted Nodes
+      #iterate through the list of decrypted Nodes
       for i in [0..decryptedNodes.length-1]
         #if the type from the Type array at index i is "Element". The index of the Type array is the same as the index of the decryptedNodes Array
         if(decryptedNodes[i][1] == XMLSecEnum.Type.Element)
           #replace the encryptedData element with the decrypted element
           encData[i].parentNode.replaceChild(utils.parseXML(decryptedNodes[i][0]).firstChild,encData[i])
         else
-          #if the type is "Conetent" get the parent node
+          #if the type is "Content" get the parent node
           parentNode = encData[i].parentNode
-          #remove the encrpytedData Element
+          #remove the encryptedData Element
           encData[i].parentNode.removeChild(encData[i].parentNode.firstChild)
-          #put the decrpyted data as content in the parent node
+          #put the decrypted data as content in the parent node
           parentNode.innerHTML = decryptedNodes[i][0]
       return doc
       )

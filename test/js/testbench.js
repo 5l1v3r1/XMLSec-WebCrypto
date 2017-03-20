@@ -310,18 +310,18 @@
 
   test_KeyInfo_Roundtrip_oneElement = function() {
     return $.get(documentRoot + "/Decryption/PKCS7_Padding/One_Element_with_KeyInfo.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + "/Original_XML/Minimal_3.xml";
       actualDiv = "#div_ED1";
-      return decrypt(chipher, window.RSAOAEP_Dec, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.RSAOAEP_Dec, referenceXML).then(function(documents) {
         var plainXML, xpath;
         plainXML = documents[0];
         xpath = [];
         xpath.push("//*[@id='bk101']");
         return encrypt(plainXML, xpath, window.AES128Key, referenceXML, "rsaKey", window.RSAOAEP_Enc, true, false).then(function(documents) {
-          chipher = documents[0];
-          return decrypt(chipher, window.RSAOAEP_Dec, referenceXML).then(function(documents) {
+          cipher = documents[0];
+          return decrypt(cipher, window.RSAOAEP_Dec, referenceXML).then(function(documents) {
             return compare(documents[0], documents[1], actualDiv);
           });
         });
@@ -331,19 +331,19 @@
 
   test_KeyInfo_Roundtrip_TwoElements = function() {
     return $.get(documentRoot + "/Decryption/PKCS7_Padding/Two_Elements_with_KeyInfo.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + "/Original_XML/Minimal_for_KeyInfo.xml";
       actualDiv = "#div_ED2";
-      return decrypt(chipher, window.RSAOAEP_Dec, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.RSAOAEP_Dec, referenceXML).then(function(documents) {
         var plainXML, xpath;
         plainXML = documents[0];
         xpath = [];
         xpath.push("//*[@id='bk101']");
         xpath.push("//*[@id='bk102']");
         return encrypt(plainXML, xpath, window.AES256Key, referenceXML, "rsaKey", window.RSAOAEP_Enc, true, false).then(function(documents) {
-          chipher = documents[0];
-          return decrypt(chipher, window.RSAOAEP_Dec, referenceXML).then(function(documents) {
+          cipher = documents[0];
+          return decrypt(cipher, window.RSAOAEP_Dec, referenceXML).then(function(documents) {
             return compare(documents[0], documents[1], actualDiv);
           });
         });
@@ -353,11 +353,11 @@
 
   test_Decryption_Complete_Doc = function() {
     return $.get(documentRoot + "/Decryption/PKCS7_Padding/Complete_Document.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + refenceDocument;
       actualDiv = "#div_D1";
-      return decrypt(chipher, window.AES256Key, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.AES256Key, referenceXML).then(function(documents) {
         return compare(documents[0], documents[1], actualDiv);
       });
     });
@@ -365,11 +365,11 @@
 
   test_Decryption_OneElement = function() {
     return $.get(documentRoot + "/Decryption/PKCS7_Padding/One_Element.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + refenceDocument;
       actualDiv = "#div_D2";
-      return decrypt(chipher, window.AES256Key, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.AES256Key, referenceXML).then(function(documents) {
         return compare(documents[0], documents[1], actualDiv);
       });
     });
@@ -377,11 +377,11 @@
 
   test_Decryption_All_Book_Elements = function() {
     return $.get(documentRoot + "/Decryption/PKCS7_Padding/All_Book_Elements.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + refenceDocument;
       actualDiv = "#div_D3";
-      return decrypt(chipher, window.AES256Key, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.AES256Key, referenceXML).then(function(documents) {
         return compare(documents[0], documents[1], actualDiv);
       });
     });
@@ -389,11 +389,11 @@
 
   test_Decryption_OneChild = function() {
     return $.get(documentRoot + "/Decryption/PKCS7_Padding/One_Child_Element.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + refenceDocument;
       actualDiv = "#div_D4";
-      return decrypt(chipher, window.AES256Key, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.AES256Key, referenceXML).then(function(documents) {
         return compare(documents[0], documents[1], actualDiv);
       });
     });
@@ -401,11 +401,11 @@
 
   test_Decryption_Content = function() {
     return $.get(documentRoot + "/Decryption/PKCS7_Padding/Content.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + refenceDocument;
       actualDiv = "#div_D5";
-      return decrypt(chipher, window.AES256Key, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.AES256Key, referenceXML).then(function(documents) {
         return compare(documents[0], documents[1], actualDiv);
       });
     });
@@ -413,11 +413,11 @@
 
   test_Decryption_Content_and_Element = function() {
     return $.get(documentRoot + "/Decryption/PKCS7_Padding/Content_and_Element.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + refenceDocument;
       actualDiv = "#div_D6";
-      return decrypt(chipher, window.AES256Key, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.AES256Key, referenceXML).then(function(documents) {
         return compare(documents[0], documents[1], actualDiv);
       });
     });
@@ -425,11 +425,11 @@
 
   test_Decryption_ISO_Complete_Doc = function() {
     return $.get(documentRoot + "/Decryption/ISOPadding/Complete_Document.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + refenceDocument2;
       actualDiv = "#div_DI1";
-      return decrypt(chipher, window.AES256Key, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.AES256Key, referenceXML).then(function(documents) {
         return compare(documents[0], documents[1], actualDiv);
       });
     });
@@ -437,11 +437,11 @@
 
   test_Decryption_ISO_OneElement = function() {
     return $.get(documentRoot + "/Decryption/ISOPadding/One_Element.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + refenceDocument2;
       actualDiv = "#div_DI2";
-      return decrypt(chipher, window.AES256Key, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.AES256Key, referenceXML).then(function(documents) {
         return compare(documents[0], documents[1], actualDiv);
       });
     });
@@ -449,11 +449,11 @@
 
   test_Decryption_ISO_All_Book_Elements = function() {
     return $.get(documentRoot + "/Decryption/ISOPadding/All_Book_Elements.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + refenceDocument2;
       actualDiv = "#div_DI3";
-      return decrypt(chipher, window.AES256Key, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.AES256Key, referenceXML).then(function(documents) {
         return compare(documents[0], documents[1], actualDiv);
       });
     });
@@ -461,11 +461,11 @@
 
   test_Decryption_ISO_OneChild = function() {
     return $.get(documentRoot + "/Decryption/ISOPadding/One_Child_Element.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + refenceDocument2;
       actualDiv = "#div_DI4";
-      return decrypt(chipher, window.AES256Key, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.AES256Key, referenceXML).then(function(documents) {
         return compare(documents[0], documents[1], actualDiv);
       });
     });
@@ -473,11 +473,11 @@
 
   test_Decryption_ISO_Content = function() {
     return $.get(documentRoot + "/Decryption/ISOPadding/Content.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + refenceDocument2;
       actualDiv = "#div_DI5";
-      return decrypt(chipher, window.AES256Key, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.AES256Key, referenceXML).then(function(documents) {
         return compare(documents[0], documents[1], actualDiv);
       });
     });
@@ -485,11 +485,11 @@
 
   test_Decryption_ISO_Content_and_Element = function() {
     return $.get(documentRoot + "/Decryption/ISOPadding/Content_and_Element.xml", function(data) {
-      var actualDiv, chipher, referenceXML;
-      chipher = data;
+      var actualDiv, cipher, referenceXML;
+      cipher = data;
       referenceXML = documentRoot + refenceDocument;
       actualDiv = "#div_DI6";
-      return decrypt(chipher, window.AES256Key, referenceXML).then(function(documents) {
+      return decrypt(cipher, window.AES256Key, referenceXML).then(function(documents) {
         return compare(documents[0], documents[1], actualDiv);
       });
     });
@@ -989,11 +989,11 @@
     }
   };
 
-  decrypt = function(chipherXML, key, referenceXML) {
+  decrypt = function(cipherXML, key, referenceXML) {
     var encryptedXML, references;
     references = [];
     encryptedXML = new EncryptedXML();
-    return encryptedXML.decrypt(chipherXML, key).then(function(decrypted) {
+    return encryptedXML.decrypt(cipherXML, key).then(function(decrypted) {
       return [decrypted, referenceXML];
     });
   };

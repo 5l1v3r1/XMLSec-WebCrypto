@@ -342,18 +342,18 @@ resetResults = () ->
 
 test_KeyInfo_Roundtrip_oneElement = ()->
   $.get (documentRoot+"/Decryption/PKCS7_Padding/One_Element_with_KeyInfo.xml") ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+"/Original_XML/Minimal_3.xml"
     actualDiv = "#div_ED1"
-    decrypt(chipher,window.RSAOAEP_Dec,referenceXML)
+    decrypt(cipher,window.RSAOAEP_Dec,referenceXML)
     .then((documents)->
       plainXML = documents[0]
       xpath = []
       xpath.push("//*[@id='bk101']")
       encrypt(plainXML,xpath,window.AES128Key,referenceXML,"rsaKey",window.RSAOAEP_Enc,true,false)
       .then((documents)->
-        chipher = documents[0]
-        decrypt(chipher,window.RSAOAEP_Dec,referenceXML)
+        cipher = documents[0]
+        decrypt(cipher,window.RSAOAEP_Dec,referenceXML)
         .then((documents)->
             compare(documents[0],documents[1],actualDiv)
           )
@@ -362,10 +362,10 @@ test_KeyInfo_Roundtrip_oneElement = ()->
 
 test_KeyInfo_Roundtrip_TwoElements = ()->
   $.get documentRoot+"/Decryption/PKCS7_Padding/Two_Elements_with_KeyInfo.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+"/Original_XML/Minimal_for_KeyInfo.xml"
     actualDiv = "#div_ED2"
-    decrypt(chipher,window.RSAOAEP_Dec,referenceXML)
+    decrypt(cipher,window.RSAOAEP_Dec,referenceXML)
     .then((documents)->
       plainXML = documents[0]
       xpath = []
@@ -373,8 +373,8 @@ test_KeyInfo_Roundtrip_TwoElements = ()->
       xpath.push("//*[@id='bk102']")
       encrypt(plainXML,xpath,window.AES256Key,referenceXML,"rsaKey",window.RSAOAEP_Enc,true,false)
       .then((documents)->
-        chipher = documents[0]
-        decrypt(chipher,window.RSAOAEP_Dec,referenceXML)
+        cipher = documents[0]
+        decrypt(cipher,window.RSAOAEP_Dec,referenceXML)
         .then((documents)->
             compare(documents[0],documents[1],actualDiv)
           )
@@ -383,120 +383,120 @@ test_KeyInfo_Roundtrip_TwoElements = ()->
 
 test_Decryption_Complete_Doc = () ->
   $.get documentRoot+"/Decryption/PKCS7_Padding/Complete_Document.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+refenceDocument
     actualDiv = "#div_D1"
-    decrypt(chipher,window.AES256Key,referenceXML)
+    decrypt(cipher,window.AES256Key,referenceXML)
     .then((documents)->
       compare(documents[0],documents[1],actualDiv)
       )
 
 test_Decryption_OneElement = () ->
   $.get documentRoot+"/Decryption/PKCS7_Padding/One_Element.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+refenceDocument
     actualDiv = "#div_D2"
-    decrypt(chipher,window.AES256Key,referenceXML)
+    decrypt(cipher,window.AES256Key,referenceXML)
     .then((documents)->
       compare(documents[0],documents[1],actualDiv)
       )
 
 test_Decryption_All_Book_Elements = () ->
   $.get documentRoot+"/Decryption/PKCS7_Padding/All_Book_Elements.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+refenceDocument
     actualDiv = "#div_D3"
-    decrypt(chipher,window.AES256Key,referenceXML)
+    decrypt(cipher,window.AES256Key,referenceXML)
     .then((documents)->
       compare(documents[0],documents[1],actualDiv)
       )
 
 test_Decryption_OneChild = () ->
   $.get documentRoot+"/Decryption/PKCS7_Padding/One_Child_Element.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+refenceDocument
     actualDiv = "#div_D4"
-    decrypt(chipher,window.AES256Key,referenceXML)
+    decrypt(cipher,window.AES256Key,referenceXML)
     .then((documents)->
       compare(documents[0],documents[1],actualDiv)
       )
 
 test_Decryption_Content = () ->
   $.get documentRoot+"/Decryption/PKCS7_Padding/Content.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+refenceDocument
     actualDiv = "#div_D5"
-    decrypt(chipher,window.AES256Key,referenceXML)
+    decrypt(cipher,window.AES256Key,referenceXML)
     .then((documents)->
       compare(documents[0],documents[1],actualDiv)
       )
 
 test_Decryption_Content_and_Element = () ->
   $.get documentRoot+"/Decryption/PKCS7_Padding/Content_and_Element.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+refenceDocument
     actualDiv = "#div_D6"
-    decrypt(chipher,window.AES256Key,referenceXML)
+    decrypt(cipher,window.AES256Key,referenceXML)
     .then((documents)->
       compare(documents[0],documents[1],actualDiv)
       )
 
 test_Decryption_ISO_Complete_Doc = () ->
   $.get documentRoot+"/Decryption/ISOPadding/Complete_Document.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+refenceDocument2
     actualDiv = "#div_DI1"
-    decrypt(chipher,window.AES256Key,referenceXML)
+    decrypt(cipher,window.AES256Key,referenceXML)
     .then((documents)->
       compare(documents[0],documents[1],actualDiv)
       )
 
 test_Decryption_ISO_OneElement = () ->
   $.get documentRoot+"/Decryption/ISOPadding/One_Element.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+refenceDocument2
     actualDiv = "#div_DI2"
-    decrypt(chipher,window.AES256Key,referenceXML)
+    decrypt(cipher,window.AES256Key,referenceXML)
     .then((documents)->
       compare(documents[0],documents[1],actualDiv)
       )
 
 test_Decryption_ISO_All_Book_Elements = () ->
   $.get documentRoot+"/Decryption/ISOPadding/All_Book_Elements.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+refenceDocument2
     actualDiv = "#div_DI3"
-    decrypt(chipher,window.AES256Key,referenceXML)
+    decrypt(cipher,window.AES256Key,referenceXML)
     .then((documents)->
       compare(documents[0],documents[1],actualDiv)
       )
 
 test_Decryption_ISO_OneChild = () ->
   $.get documentRoot+"/Decryption/ISOPadding/One_Child_Element.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+refenceDocument2
     actualDiv = "#div_DI4"
-    decrypt(chipher,window.AES256Key,referenceXML)
+    decrypt(cipher,window.AES256Key,referenceXML)
     .then((documents)->
       compare(documents[0],documents[1],actualDiv)
       )
 
 test_Decryption_ISO_Content = () ->
   $.get documentRoot+"/Decryption/ISOPadding/Content.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+refenceDocument2
     actualDiv = "#div_DI5"
-    decrypt(chipher,window.AES256Key,referenceXML)
+    decrypt(cipher,window.AES256Key,referenceXML)
     .then((documents)->
       compare(documents[0],documents[1],actualDiv)
       )
 
 test_Decryption_ISO_Content_and_Element = () ->
   $.get documentRoot+"/Decryption/ISOPadding/Content_and_Element.xml" ,( data ) ->
-    chipher = data
+    cipher = data
     referenceXML = documentRoot+refenceDocument
     actualDiv = "#div_DI6"
-    decrypt(chipher,window.AES256Key,referenceXML)
+    decrypt(cipher,window.AES256Key,referenceXML)
     .then((documents)->
       compare(documents[0],documents[1],actualDiv)
       )
@@ -910,10 +910,10 @@ verify=(signedXML,actualDiv,negative,MAC) ->
       )
 
 
-decrypt = (chipherXML,key,referenceXML) ->
+decrypt = (cipherXML,key,referenceXML) ->
   references = []
   encryptedXML = new EncryptedXML()
-  encryptedXML.decrypt(chipherXML,key)
+  encryptedXML.decrypt(cipherXML,key)
   .then((decrypted)->
       return [decrypted,referenceXML]
     )

@@ -110,13 +110,13 @@
      */
 
     decryptRecursive = function(encData, key, decryptedNodes, index) {
-      var chipherValue, type;
+      var cipherValue, type;
       type = Helper.mapFromURI(encData[index].getAttribute(XMLSecEnum.AttributeNames.type));
       if (key.type === XMLSecEnum.KeyTypes.Private) {
         return unwrapKey(encData[index], key).then(function(symKey) {
-          var chipherValue;
-          chipherValue = encData[index].getElementsByTagName(XMLSecEnum.NodeNames.cipherValue)[0].innerHTML;
-          return CryptoWrapper.Decryption(chipherValue, symKey).then(function(decrypted) {
+          var cipherValue;
+          cipherValue = encData[index].getElementsByTagName(XMLSecEnum.NodeNames.cipherValue)[0].innerHTML;
+          return CryptoWrapper.Decryption(cipherValue, symKey).then(function(decrypted) {
             decryptedNodes.push([decrypted, type]);
             if (index < encData.length - 1) {
               return decryptRecursive(encData, key, decryptedNodes, index + 1);
@@ -124,8 +124,8 @@
           });
         });
       } else if (key.type === XMLSecEnum.KeyTypes.Secret) {
-        chipherValue = encData[index].getElementsByTagName(XMLSecEnum.NodeNames.cipherValue)[0].innerHTML;
-        return CryptoWrapper.Decryption(chipherValue, key).then(function(decrypted) {
+        cipherValue = encData[index].getElementsByTagName(XMLSecEnum.NodeNames.cipherValue)[0].innerHTML;
+        return CryptoWrapper.Decryption(cipherValue, key).then(function(decrypted) {
           decryptedNodes.push([decrypted, type]);
           if (index < encData.length - 1) {
             return decryptRecursive(encData, key, decryptedNodes, index + 1);
