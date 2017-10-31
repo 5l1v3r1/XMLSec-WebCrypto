@@ -1,7 +1,7 @@
 module.exports =
   name: "xmlsec-webcrypto"
 
-  version: "0.1.0"
+  version: "0.1.1"
   description: "An implementation for the XML Security Standard using the W3C WebCrypto API"
   
   homepage: "https://github.com/RUB-NDS/XMLSec-WebCrypto"
@@ -17,7 +17,7 @@ module.exports =
     "xml-c14n": ">=0.0.6"
     xpath: ">=0.0.23"
     browserify: "~13"
-    "uglify-js": "~2.7"
+    "uglify-js": "~3"
     mkdirp: "*"
     
   engine: "node >= 0.6"

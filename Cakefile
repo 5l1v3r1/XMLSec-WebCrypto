@@ -1,7 +1,7 @@
 fs = require 'fs'
 mkdirp = require 'mkdirp'
 {print} = require 'util'
-{spawn,exec} = require 'child_process'
+{exec, execSync, spawn} = require 'child_process'
 
 compile = (dest, src, callback) ->
   coffee = spawn 'coffee', ['--compile', '--no-header', '-o', dest, src]
@@ -14,7 +14,8 @@ compile = (dest, src, callback) ->
 
 makeUgly = (infile, outfile) ->
   uglify = require('uglify-js')
-  code = uglify.minify(infile).code
+  code = fs.readFileSync(infile).toString()
+  code = uglify.minify(code).code
   fs.writeFileSync(outfile, code)
   console.log("Minified " + outfile)
 
@@ -53,7 +54,7 @@ buildDist = ->
           throw err if err
         console.log "Uglifying #{dest}"
         makeUgly "dist/#{dest}.uncompressed.js", "dist/#{dest}.js"
-        exec "rm dist/#{dest}.uncompressed.js"
+        execSync "rm dist/#{dest}.uncompressed.js"
 
 buildLibs = (callback) ->
   exec 'node ./node_modules/browserify/bin/cmd.js js/CanonicalXML.js -o js/CanonicalXML.converted.js', (err, stdout, stderr) ->
